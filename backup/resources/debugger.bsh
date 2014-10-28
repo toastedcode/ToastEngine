@@ -1,0 +1,17 @@
+import gameEngine.Event;
+import gameEngine.EventManager;
+import gameEngine.StateManager;
+
+void initialize()
+{
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "eventKP_D")
+   {
+      boolean isDebugMode = Boolean.valueOf(StateManager.getState("global", "isDebugMode"));
+      StateManager.setState("global", "isDebugMode", !isDebugMode);      
+   }
+}

@@ -1,0 +1,63 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+import java.awt.geom.Point2D;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+String gunId = null;
+String timerId = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   Sprite gun = SpriteManager.cloneSprite("sprWordGun", spriteId);
+   gunId = gun.getSpriteId();
+   StateManager.setState(gunId, "stateOFFSET", 200);
+   StateManager.setState(gunId, "stateSCALE", 100);
+   
+   Sprite healthMeter = SpriteManager.cloneSprite("sprHealthMeter", spriteId);
+   
+   timerId = TimerManager.startTimer(5000, true, "eventJUMP");
+   EventManager.registerSpriteForEvent(spriteId, "eventJUMP");
+}
+
+
+void handleEvent(Event event)
+{
+   Physics physics = thisSprite.getPhysics();
+   
+   if (event.getEventId() == "eventJUMP")
+   {
+      physics.addVelocity(new Vector2D(0, Double.valueOf(StateManager.getState(spriteId, "stateJumpingAcceleration"))));
+      
+      Event event = new Event("eventFIRE");
+      event.addPayload("word", "babble");
+      EventManager.sendEvent(event, gunId);         
+   }
+   else if (event.getEventId() == "eventDead")
+   {
+      SpriteManager.destroySprite(spriteId);
+   }   
+   
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************

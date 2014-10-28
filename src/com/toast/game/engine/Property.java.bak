@@ -1,0 +1,83 @@
+package com.toast.game.engine;
+
+import com.toast.game.common.ClassSet;
+import com.toast.game.engine.components.Component;
+
+public class Property<T> extends Component
+{
+   public Property(
+         String id,
+         ClassSet classSet,
+         T minValue,
+         T maxValue,
+         T defaultValue)
+   {
+      super(id, classSet);
+      MIN_VALUE = minValue;
+      MAX_VALUE = maxValue;
+      DEFAULT_VALUE = defaultValue;
+
+      reset();
+   }
+
+
+   public T getValue()
+   {
+      return (value);
+   }
+
+
+   public boolean setValue(
+      T value)
+   {
+      boolean returnStatus = false;
+
+      if (validate(value) == true)
+      {
+         this.value = value;
+         returnStatus = true;
+      }
+
+      return (returnStatus);
+   }
+
+
+   public void reset()
+   {
+      setValue(DEFAULT_VALUE);
+   }
+
+
+   public T getMinValue()
+   {
+      return (MIN_VALUE);
+   }
+
+
+   public T getMaxValue()
+   {
+      return (MAX_VALUE);
+   }
+
+
+   public boolean validate(T value)
+   {
+      return (true);
+   }
+
+
+   protected boolean validateChild(
+      Component child)
+   {
+      return ((child != null) &&
+              (child instanceof Property));
+   }
+
+   private T value;
+
+   private final T MIN_VALUE;
+
+   private final T MAX_VALUE;
+
+   private final T DEFAULT_VALUE;
+}

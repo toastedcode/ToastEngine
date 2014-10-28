@@ -1,0 +1,118 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.InputManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+import java.lang.Math;
+
+static boolean isFiring;
+static String word;
+static int wordPosition;
+static String timerId;
+static int wordDirection;
+
+void initialize()
+{
+   EventManager.registerSpriteForEvent(spriteId, "eventFIRE");
+   EventManager.registerSpriteForEvent(spriteId, "eventSTOP_FIRE");
+   EventManager.registerSpriteForEvent(spriteId, "eventNEXT_LETTER");
+}
+
+
+void handleEvent(Event event)
+{
+   if ((event.getEventId() == "eventFIRE") &&
+       (isFiring == false))
+   {
+      startFiring(event.getStringPayload("word"));
+      spawnNextLetter();
+   }
+   else if ((event.getEventId() == "eventSTOP_FIRE") &&
+            (isFiring == true))
+   {
+      stopFiring();
+   }   
+   else if (event.getEventId() == "eventNEXT_LETTER")
+   {
+      spawnNextLetter();
+   }
+}
+
+
+void startFiring(
+   String initWord)
+{
+   Sprite parentSprite = SpriteManager.getSprite(thisSprite.getParentId());
+   if (parentSprite != null)
+   {
+	  isFiring = true;
+	  word = initWord;
+	  if (parentSprite.getFacing() ==  Sprite.Direction.DIRECTION_RIGHT)
+	  {
+	     wordPosition = word.length() - 1;
+		 wordDirection = -1;
+	  }
+	  else
+	  {
+	     wordPosition = 0;
+		 wordDirection = 1;
+	  }
+      timerId = TimerManager.startTimer(75, true, spriteId, "eventNEXT_LETTER");
+   }
+}
+
+
+void stopFiring()
+{
+   isFiring = false;
+   wordPosition = -1;
+   word = "";
+   TimerManager.cancelTimer(timerId);
+}
+
+
+void spawnNextLetter()
+{
+   Sprite parentSprite = SpriteManager.getSprite(thisSprite.getParentId());
+   if ((parentSprite == null) ||
+       (isFiring == false) ||
+       ((wordDirection == -1) && (wordPosition < 0)) ||
+       ((wordDirection == 1) && (wordPosition == word.length())))
+   {
+      stopFiring();
+   }
+   else
+   {
+      int facingMultiplier = 
+         (parentSprite.getFacing() == Sprite.Direction.DIRECTION_RIGHT) ?
+            1 :
+            -1;
+      
+      Sprite letterSprite = SpriteManager.cloneSprite("sprLetter", spriteId);
+      
+      Point2D position = new Point2D.Double();
+      position.setLocation((parentSprite.getCenter().getX() + (parentSprite.getWidth() * facingMultiplier)),
+                           parentSprite.getCenter().getY());
+      letterSprite.setPosition(position);
+      letterSprite.getPhysics().setVelocity(new Vector2D((500.0 * facingMultiplier), 0.0));
+      letterSprite.setCurrentFrame(getFrame(word.charAt(wordPosition)));
+      int scale = Integer.valueOf(StateManager.getState(spriteId, "stateSCALE"));
+      letterSprite.setScale(new Dimension(scale, scale));   
+      letterSprite.show();
+      
+      wordPosition += wordDirection;
+   }
+}
+
+int getFrame(char c)
+{
+   return (c - 'a');
+}
+
+

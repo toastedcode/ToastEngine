@@ -1,0 +1,30 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.InputManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+java.awt.Point;
+import java.awt.geom.Point2D.Double;
+import java.lang.Math;
+
+void initialize()
+{
+   EventManager.registerSpriteForEvent(spriteId, "eventMOUSE_PRESSED");
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "eventMOUSE_PRESSED")
+   {
+      Point mouseLocation = InputManager.getMouseLocation();
+      Sprite sprite = SpriteManager.cloneSprite("sprBrick2", false);
+      sprite.setPosition(mouseLocation);
+      sprite.getPhysics().setVelocity(new Vector2D(0.0, 0.0));   
+   }   
+          
+}

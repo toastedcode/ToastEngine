@@ -1,0 +1,67 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.InputManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+import java.lang.Math;
+
+static String timerId;
+
+void initialize()
+{
+   EventManager.registerSpriteForEvent(spriteId, "eventFIRE");
+   EventManager.registerSpriteForEvent(spriteId, "eventSTOP_FIRE");
+   EventManager.registerSpriteForEvent(spriteId, "eventNEXT_LETTER");
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "eventFIRE")
+   {
+      String birdType = event.getStringPayload("bird");
+      fire(birdType);
+   }
+}
+
+
+void fire(
+   String birdType)
+{
+   Sprite parentSprite = SpriteManager.getSprite(thisSprite.getParentId());
+   if (parentSprite != null)
+   {
+      int facingMultiplier = 
+         (parentSprite.getFacing() == Sprite.Direction.DIRECTION_RIGHT) ?
+            1 :
+            -1;
+      
+      Sprite bird = SpriteManager.cloneSprite("sprBird", spriteId);
+      
+      if (birdType.equals("yellow") == true)
+      {
+         bird.setImage("imgYellowBird");
+      }
+      else if (birdType.equals("black") == true)
+      {
+         bird.setImage("imgBlackBird");
+      }
+      else if (birdType.equals("bigred") == true)
+      {
+         bird.setImage("imgBigRedBird");
+      }
+      
+      Point2D position = new Point2D.Double();
+      position.setLocation((parentSprite.getCenter().getX() + (parentSprite.getWidth() * facingMultiplier)),
+                           parentSprite.getCenter().getY());
+      bird.setPosition(position);
+      bird.getPhysics().setVelocity(new Vector2D((300.0 * facingMultiplier), -200.0));
+      bird.show();
+   }
+}

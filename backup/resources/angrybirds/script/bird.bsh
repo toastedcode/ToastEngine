@@ -1,0 +1,48 @@
+import gameEngine.Event;
+import gameEngine.EventManager;
+import gameEngine.Sprite;
+import gameEngine.SpriteManager;
+import gameEngine.TimerManager;
+import java.awt.geom.Point2D;
+
+static String timerId = null;
+
+void initialize()
+{
+   timerId = TimerManager.startTimer(3000, false, spriteId, "eventExpire");
+}
+
+
+void handleEvent(Event event)
+{
+   if ((event.getEventId() == "eventExpire") ||
+       (event.getEventId() == "eventCollision"))
+   {
+      explode();      
+   }
+   else if ((event.getEventId() == "eventAnimationFinished") &&
+            (event.getStringPayload("animation").equals("animExplosion") == true))
+   {
+      print(event.getStringPayload("animation"));
+      SpriteManager.destroySprite(spriteId);
+   }   
+}
+
+void destroy()
+{
+   if (timerId != null)
+   {
+      TimerManager.cancelTimer(timerId);
+   }
+}
+
+
+void explode()
+{
+   Point2D center = thisSprite.getCenter();
+   thisSprite.setAnimation("animExplosion");
+   thisSprite.setScale(new Dimension(50, 50));
+   thisSprite.getPhysics().disable();
+   thisSprite.getCollision().disable();
+   thisSprite.centerOn(center);
+}

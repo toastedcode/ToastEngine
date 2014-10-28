@@ -1,0 +1,8 @@
+<levels>
+	<!-- level id="levelSplash"><filename>/resources/splash.xml</filename></level-->
+	<level id="levelAngryBirds"><filename>/resources/angrybirds/angrybirds.xml</filename></level>
+	<level id="levelKitchenCounter"><filename>/resources/kitchencounter.xml</filename></level>
+	<level id="levelBayWindow"><filename>/resources/baywindow.xml</filename></level>
+	<!-- level id="levelGroundedTest"><filename>/resources/groundedtest.xml</filename></level-->
+	<!-- level id="levelCollisionTest"><filename>/resources/collisionTest.xml</filename></level-->
+</levels>

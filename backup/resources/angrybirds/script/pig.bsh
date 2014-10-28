@@ -1,0 +1,46 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+import java.awt.geom.Point2D;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+String gunId = null;
+String timerId = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   Sprite healthMeter = SpriteManager.cloneSprite("sprHealthMeter", spriteId);
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "eventDead")
+   {
+      TimerManager.cancelTimer(timerId);
+      SpriteManager.destroySprite(spriteId);
+   }   
+   
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************

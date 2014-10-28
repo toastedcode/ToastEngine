@@ -1,0 +1,320 @@
+package gameEngine;
+
+import java.awt.*;
+import java.applet.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseEvent;
+
+// ToastEngine is a simple 2D game engine
+// Jason Tost
+// Started 1/12/2011
+public class ToastEngine extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
+{
+   // **************************************************************************
+   //                           Public Operations
+   // **************************************************************************   
+
+   // Test *****************************
+   
+   public void initialize()
+   {
+      // Initialize our input handlers.
+      addKeyListener(this);
+      addMouseListener(this);
+      addMouseMotionListener(this);
+      
+      CollisionManager.unitTest();
+      
+      // Initialize our graphics renderer.
+      Renderer.initialize(getWidth(), getHeight());
+      
+      // Initialize our object managers.
+      SpriteManager.initialize();
+      ResourceManager.initialize();
+      AnimationManager.initialize();
+      EventManager.initialize();
+      StateManager.initialize();
+      ScriptManager.initialize();
+      TimerManager.initialize();
+      InputManager.initialize();
+      LevelManager.initialize();
+      TriggerManager.initialize();
+      
+      Renderer.setView(new View(new Rectangle(0, 0, getWidth(), getHeight())));
+      
+      LevelManager.loadLevels();
+      
+      // Start keeping track of the game time
+      gameTime = System.currentTimeMillis(); 
+   }
+
+   
+   private void update()
+   {
+      // Called from the gameloop, this method updates all game logic
+
+      // Determine how much time has passed since the last update
+      long elapsedTime = System.currentTimeMillis() - gameTime;
+     
+      if (elapsedTime > 0)
+      {
+         // Recalculate the current frame rate.
+         frameRate = (MILLISECONDS_PER_SECOND / elapsedTime);
+         
+         // Update the current level.
+         LevelManager.updateLevel(elapsedTime);
+      
+         // Update all timers
+         TimerManager.updateTimers(elapsedTime);
+         
+         // Update all triggers
+         TriggerManager.updateTriggers(elapsedTime);
+   
+         // Update all sprites (animation, physics, logic)
+         SpriteManager.updateSprites(elapsedTime);
+         
+         // Update the Renderer's current View.
+         Renderer.getView().update(elapsedTime);
+      }
+
+      // Reset the gametime to the current time
+      gameTime = System.currentTimeMillis();
+   }   
+   
+   
+   public void paint(Graphics graphics)
+   {
+      // Clear the renderer.
+      Renderer.clear();
+
+      // Draw all sprites.
+      SpriteManager.drawSprites();
+      
+      // TODO: Move to Debugger class.
+      if (Boolean.valueOf(StateManager.getState("global", "isDebugMode")) == true)
+      {
+         Renderer.drawText(String.format("Framerate: %1$.2f", frameRate), 
+                           new Point(20, 20),
+                           Color.WHITE,
+                           new Font( "SansSerif", Font.PLAIN, 12 ),
+                           CoordinatesType.SCREEN,
+                           100);
+      }
+
+      // Paint to the applet screen from the backbuffer
+      Renderer.paint(graphics, this);
+   }
+   
+   // Test *****************************
+   
+   public void init()
+   {
+      // Initialize our input handlers.
+      addKeyListener(this);
+      addMouseListener(this);
+      addMouseMotionListener(this);
+      
+      CollisionManager.unitTest();
+      
+      // Initialize our graphics renderer.
+      Renderer.initialize(getWidth(), getHeight());
+      
+      // Initialize our object managers.
+      SpriteManager.initialize();
+      ResourceManager.initialize();
+      AnimationManager.initialize();
+      EventManager.initialize();
+      StateManager.initialize();
+      ScriptManager.initialize();
+      TimerManager.initialize();
+      InputManager.initialize();
+      LevelManager.initialize();
+      TriggerManager.initialize();
+      
+      Renderer.setView(new View(new Rectangle(0, 0, getWidth(), getHeight())));
+      
+      LevelManager.loadLevels();
+      
+      // Start keeping track of the game time
+      gameTime = System.currentTimeMillis(); 
+   }
+
+   
+   // This operation is called from the Applet when it is started (but after init).
+   public void start()
+   {
+      // start() is 
+
+      // Create a game loop thread and start it
+      gameLoop = new Thread(this);
+      gameLoop.start();
+   }
+
+   
+   // This operation is called from the Applet when it is stopped.
+   public void stop()
+   {
+      // Kill the game loop
+      gameLoop = null;
+   }
+
+   
+   // This operation is called from the Applet as part of the runnable 
+   // interface.  This method implements threads, including the game loop 
+   // thread.   
+   public void run()
+   {
+      // Get the current thread
+      Thread currentThread = Thread.currentThread();
+
+      // Implement a game loop
+      while (currentThread == gameLoop)
+      {
+         gameUpdate();  // Game processing
+         repaint();     // Repaint the screen
+      }
+   }
+
+   
+   // This operation is called by the Applet when the application makes a 
+   // repaint() call.   
+   public void update(Graphics graphics)
+   {
+      // Clear the renderer.
+      Renderer.clear();
+
+      // Draw all sprites.
+      SpriteManager.drawSprites();
+      
+      // TODO: Move to Debugger class.
+      if (Boolean.valueOf(StateManager.getState("global", "isDebugMode")) == true)
+      {
+         Renderer.drawText(String.format("Framerate: %1$.2f", frameRate), 
+                           new Point(20, 20),
+                           Color.WHITE,
+                           new Font( "SansSerif", Font.PLAIN, 12 ),
+                           CoordinatesType.SCREEN,
+                           100);
+      }
+
+      // Paint to the applet screen from the backbuffer
+      Renderer.paint(graphics, this);
+   }
+   
+   // **************************************************************************
+   //                           Key Listener Operations   
+   
+   public void keyPressed(
+      KeyEvent e)
+   {
+      InputManager.handleKeyPressed(e);      
+   }
+   
+   
+   public void keyReleased(
+         KeyEvent e)
+   {
+      InputManager.handleKeyReleased(e);           
+   }
+   
+   
+   public void keyTyped(
+      KeyEvent e)
+   {
+   }   
+   
+   // **************************************************************************
+   //                           Mouse Listener Operations   
+   
+   public void mousePressed(MouseEvent e)
+   {
+      InputManager.handleMousePressed(e);          
+   }
+
+   
+   public void mouseReleased(MouseEvent e)
+   {
+      InputManager.handleMouseReleased(e);        
+   }
+
+   
+   public void mouseEntered(MouseEvent e)
+   {
+   }
+
+   
+   public void mouseExited(MouseEvent e)
+   {
+   }
+
+   
+   public void mouseClicked(MouseEvent e)
+   {
+   }
+   
+   
+   public void mouseMoved(MouseEvent e)
+   {
+      InputManager.handleMouseMoved(e);      
+   }   
+   
+   
+   public void mouseDragged(MouseEvent e)
+   {
+   }   
+   
+   // **************************************************************************
+   //                           Private Operations
+   // **************************************************************************   
+   
+   private void gameUpdate()
+   {
+      // Called from the gameloop, this method updates all game logic
+
+      // Determine how much time has passed since the last update
+      long elapsedTime = System.currentTimeMillis() - gameTime;
+     
+      if (elapsedTime > 0)
+      {
+         // Recalculate the current frame rate.
+         frameRate = (MILLISECONDS_PER_SECOND / elapsedTime);
+         
+         // Update the current level.
+         LevelManager.updateLevel(elapsedTime);
+      
+         // Update all timers
+         TimerManager.updateTimers(elapsedTime);
+         
+         // Update all triggers
+         TriggerManager.updateTriggers(elapsedTime);
+   
+         // Update all sprites (animation, physics, logic)
+         SpriteManager.updateSprites(elapsedTime);
+         
+         // Update the Renderer's current View.
+         Renderer.getView().update(elapsedTime);
+      }
+
+      // Reset the gametime to the current time
+      gameTime = System.currentTimeMillis();
+   }
+
+   
+   // **************************************************************************
+   //                           Private Attributes
+   // **************************************************************************   
+   
+   private static final int MILLISECONDS_PER_SECOND = 1000;   
+   
+   // The thread that runs the main game loop
+   private Thread gameLoop;
+   
+   // Keeps track of the current game time (in milliseconds).
+   private long gameTime;
+   
+   // The current calculated frame rate.
+   private double frameRate;
+}

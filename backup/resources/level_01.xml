@@ -1,0 +1,414 @@
+<level id="level_1">
+   <resource id="imgLink" type="image">
+      <src>/resources/zelda2.png</src>
+   </resource>
+   <resource id="imgBlock" type="image">
+      <src>/resources/marioblock.png</src>
+   </resource>
+   <animation id="animLinkLeft">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>3</startFrame>
+      <endFrame>0</endFrame>
+      <animationDirection>-1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>15</frameRate>   
+   </animation>
+   <animation id="animLinkRight">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>4</startFrame>
+      <endFrame>7</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>15</frameRate>   
+   </animation>
+   <animation id="animLinkWalkLeft">
+   	<imageId>imgLink</imageId>
+   	<numRows>11</numRows>
+   	<numColumns>8</numColumns>
+   	<startFrame>3</startFrame>
+   	<endFrame>0</endFrame>
+   	<animationDirection>-1</animationDirection>
+   	<animationType>ANIMATION_LOOP</animationType>
+   	<frameRate>15</frameRate>
+   </animation>   
+   <animation id="animLinkWalkRight">
+   	<imageId>imgLink</imageId>
+   	<numRows>11</numRows>
+   	<numColumns>8</numColumns>
+   	<startFrame>4</startFrame>
+   	<endFrame>7</endFrame>
+   	<animationDirection>1</animationDirection>
+   	<animationType>ANIMATION_LOOP</animationType>
+   	<frameRate>15</frameRate>
+   </animation>
+   <animation id="animLinkDuckLeft">
+   	<imageId>imgLink</imageId>
+   	<numRows>11</numRows>
+   	<numColumns>8</numColumns>
+   	<startFrame>9</startFrame>
+   	<endFrame>9</endFrame>
+   	<animationDirection>1</animationDirection>
+   	<animationType>ANIMATION_NORMAL</animationType>
+   	<frameRate>15</frameRate>
+   </animation>
+   <animation id="animLinkDuckRight">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>14</startFrame>
+      <endFrame>14</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>15</frameRate>
+    </animation>
+    <animation id="animLinkHighAttackLeft">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>11</startFrame>
+      <endFrame>10</endFrame>
+      <animationDirection>-1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>15</frameRate>    
+    </animation>
+    <animation id="animLinkHighAttackRight">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>12</startFrame>
+      <endFrame>13</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>15</frameRate>    
+    </animation>
+    <animation id="animLinkLowAttackLeft">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>9</startFrame>
+      <endFrame>8</endFrame>
+      <animationDirection>-1</animationDirection>
+      <animationType>ANIMATION_BOUNCE</animationType>
+      <frameRate>15</frameRate>    
+    </animation>
+    <animation id="animLinkLowAttackRight">
+      <imageId>imgLink</imageId>
+      <numRows>11</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>14</startFrame>
+      <endFrame>15</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_BOUNCE</animationType>
+      <frameRate>15</frameRate>      
+    </animation>
+    <sprite id="sprBackground">
+   	<position>
+   		<x>0</x>
+   		<y>0</y></position>
+   	<isVisible>true</isVisible>
+   	<imageId>imgBackground</imageId>
+   	<scale>
+   		<height>100</height>
+   		<width>100</width></scale></sprite>
+     <sprite id="sprBackground2">
+      <imageId>imgBackground</imageId>
+      <position>
+         <x>767</x>
+         <y>0</y></position>
+      <isVisible>true</isVisible>
+   </sprite>   		
+   
+   <sprite id="sprLink">
+   	<animationId>animLinkRight</animationId>
+   	<isVisible>true</isVisible>
+   	<scale>
+   		<width>200</width>
+   		<height>200</height>
+      </scale>
+      <position>
+   	   <x>100</x>
+   	   <y>100</y>
+   	</position>
+   	<physics>
+   		<velocity>
+   			<x>0</x>
+   			<y>0</y>
+   	   </velocity>
+   		<gravity>
+   			<x>0</x>
+   			<y>1000</y>
+   	   </gravity>
+   		<drag>90</drag>
+   		<terminalVelocity>
+   			<x>50</x>
+   			<y>500</y>
+   	   </terminalVelocity>
+   		<mass>100</mass>
+      </physics>
+   	<events>
+   		<eventId>eventKP_LEFT</eventId>
+   		<eventId>eventKP_RIGHT</eventId>
+   		<eventId>eventKR_LEFT</eventId>
+   		<eventId>eventKR_RIGHT</eventId>
+   		<eventId>eventKP_SPACE</eventId>
+   		<eventId>eventKP_DOWN</eventId>
+   		<eventId>eventKR_DOWN</eventId>
+   		<eventId>eventKP_UP</eventId>
+   		<eventId>eventKR_UP</eventId>
+   		<eventId>eventKP_V</eventId>
+   		<eventId>eventKR_V</eventId>
+   	</events>
+   	<states>
+   	   <state id="stateWalkingAcceleration">500</state>
+   	   <state id="stateJumpingAcceleration">-400</state>
+   	   <state id="animRight">animLinkRight</state>
+   	   <state id="animLeft">animLinkLeft</state>
+   	   <state id="animWalkRight">animLinkWalkRight</state>
+   	   <state id="animWalkLeft">animLinkWalkLeft</state>
+   	   <state id="animDuckLeft">animLinkDuckLeft</state>
+   	   <state id="animDuckRight">animLinkDuckRight</state>
+   	   <state id="animHighAttackRight">animLinkHighAttackRight</state>
+   	   <state id="animHighAttackLeft">animLinkHighAttackLeft</state>
+   	   <state id="animLowAttackRight">animLinkLowAttackRight</state>
+   	   <state id="animLowAttackLeft">animLinkLowAttackLeft</state>
+   	</states>
+   	<script>scriptLink</script>
+   	<health>3</health>
+   	<collision>
+   		<isSolid>true</isSolid>
+   		<rectangle>
+   			<x>5</x>
+   			<y>0</y>
+   			<width>23</width>
+   			<height>31</height>
+   	   </rectangle>
+   	</collision>
+   </sprite>
+   <resource id="scriptLink" type="script">
+   	<src>/resources/link.bsh</src>
+   </resource>
+   <!-- sprite id="sprBrick">
+   	<imageId>imgBlock</imageId>
+   	<position>
+   		<x>300</x>
+   		<y>100</y></position>
+   	<isVisible>true</isVisible>
+   	<scale>
+   		<height>25</height>
+   		<width>25</width>
+   	</scale>
+   	<collision>
+   		<isSolid>true</isSolid>
+   		</collision>
+   	<script>scriptBrickFactory</script>
+   	<physics>
+   		<mass>1000</mass>
+   	</physics></sprite-->
+      <sprite id="sprBrick2">
+      <imageId>imgBlock</imageId>
+      <position>
+         <x>600</x>
+         <y>0</y></position>
+      <isVisible>true</isVisible>
+      <scale>
+         <height>25</height>
+         <width>25</width>
+      </scale>
+      <collision>
+         <isSolid>true</isSolid>
+         </collision>
+   </sprite>   	
+   <resource id="scriptBrickFactory" type="script">
+   	<src>/resources/brickFactory.bsh</src></resource>
+   
+   <resource type="image" id="imgBackground">
+   	<src>/resources/LevelOne.png</src>
+   </resource>
+   <sprite id="sprBee">
+   	<imageId>imgBee</imageId>
+   	<position>
+   		<x>1000</x>
+   		<y>200</y>
+   	</position>
+   	<isVisible>true</isVisible>
+   	<scale>
+   		<height>25</height>
+   		<width>25</width>
+   	</scale>
+   	<script>scriptBee</script>
+	   	<states><state id="stateJumpingAcceleration">-400</state></states>
+	   	<collision>
+	   		<isSolid>true</isSolid></collision>
+	   	<physics>
+	   		<gravity>
+	   			<x>0</x>
+	   			<y>1000</y></gravity>
+	   		<mass>1000</mass></physics>
+
+   </sprite>
+   <resource id="imgBee" type="image">
+   	<src>/resources/Bee.png</src></resource>
+   <resource id="scriptBee" type="script">
+   	<src>/resources/bee.bsh</src>
+   </resource>
+   <sprite id="sprDragon">
+   	<imageId>imgDragon</imageId>
+   	<position>
+   		<x>400</x>
+   		<y>200</y>
+   	</position>
+   	<physics>
+   		<gravity>
+   			<x>0</x>
+   			<y>0</y>
+   		</gravity>
+   	</physics>
+   	<isVisible>true</isVisible>
+   	<scale>
+   		<height>25</height>
+   		<width>25</width>
+   	</scale>
+   	<script>scriptDragon</script>
+   </sprite>
+   <resource id="imgDragon" type="image">
+   	<src>/resources/Dragonfly.png</src>
+   </resource>
+   <resource id="scriptDragon" type="script">
+   	<src>/resources/dragon.bsh</src>
+   </resource>
+   
+   
+   
+   
+   
+   
+   <state id="isDebugMode">true</state>
+   <!-- sprite id="sprFloor">
+   	<imageId>imgFloor</imageId>
+   	<collision>
+   		<isSolid>true</isSolid></collision>
+   	<isVisible>true</isVisible>
+   	<position>
+   		<x>0</x>
+   		<y>500</y></position>
+   	<scale>
+   		<height>25</height>
+   		<width>25</width></scale>
+   	<physics>
+   		<friction>0</friction>
+   		<mass>1000</mass></physics></sprite>
+   <sprite id="sprFloor2">
+      <imageId>imgFloor</imageId>
+      <collision>
+         <isSolid>true</isSolid></collision>
+      <isVisible>true</isVisible>
+      <position>
+         <x>375</x>
+         <y>500</y></position>
+      <scale>
+         <height>25</height>
+         <width>25</width></scale>
+      <physics>
+      	<mass>1000</mass></physics></sprite>   	
+   <sprite id="sprFloor3">
+      <imageId>imgFloor</imageId>
+      <collision>
+         <isSolid>true</isSolid></collision>
+      <isVisible>true</isVisible>
+      <position>
+         <x>850</x>
+         <y>500</y></position>
+      <scale>
+         <height>25</height>
+         <width>25</width></scale>
+      <physics>
+         <mass>1000</mass></physics></sprite>
+                		   <sprite id="sprFloor4">
+      <imageId>imgFloor</imageId>
+      <collision>
+         <isSolid>true</isSolid></collision>
+      <isVisible>true</isVisible>
+      <position>
+         <x>1325</x>
+         <y>500</y></position>
+      <scale>
+         <height>25</height>
+         <width>25</width></scale>
+      <physics>
+         <mass>1000</mass></physics></sprite--> 
+   <resource id="imgFloor" type="image">
+   	<src>/resources/floor.png</src></resource>
+ <resource id="imgHealth" type="image">
+   	<src>/resources/health.png</src></resource>
+      <animation id="animHealth">
+      <imageId>imgHealth</imageId>
+      <numRows>5</numRows>
+      <numColumns>1</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>4</endFrame>
+      <animationDirection>0</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>
+      <sprite id="sprHealth">
+      	<animationId>animHealth</animationId>
+      	<isVisible>true</isVisible>
+      	<position>
+      		<x>0</x>
+      		<y>0</y></position>
+      	<scale>
+      		<height>20</height>
+      		<width>20</width>
+      	</scale>
+      	<script>scriptHealth</script></sprite>
+   <resource id="scriptHealth" type="script">
+   	<src>/resources/health.bsh</src></resource>
+   <worldDimensions>
+   	<width>1536</width>
+   	<height>576</height></worldDimensions>
+   <!-- sprite id="sprSlope">
+   	<imageId>imgSlope</imageId>
+   	<isVisible>true</isVisible>
+   	<position>
+   		<x>200</x>
+   		<y>388</y></position>
+   	     <collision>
+         <polygon>
+            <point>
+               <x>0</x>
+               <y>450</y></point>
+            <point>
+               <x>750</x>
+               <y>0</y></point>
+            <point>
+               <x>1500</x>
+               <y>450</y></point></polygon>
+         <isSolid>true</isSolid></collision>
+   	     <scale>
+   	     	<height>25</height>
+   	     	<width>25</width></scale></sprite-->
+   <resource id="imgSlope" type="image">
+   	<src>/resources/slope.png</src>
+   </resource>
+   <tileMap>
+      <position>
+         <x>0</x>
+         <y>400</y>
+      </position>
+      <tileDimensions>
+         <width>40</width>
+         <height>40</height>
+      </tileDimensions>
+      <spriteKey>
+         <key>
+            <symbol>1</symbol>
+            <spriteId>sprBrick2</spriteId>
+         </key>
+      </spriteKey>
+      <filename>/resources/level_00.map</filename>
+   </tileMap>     	
+</level>

@@ -1,0 +1,216 @@
+<level id="levelBayWindow">
+   
+   <worldDimensions>
+      <width>800</width>
+      <height>600</height>
+   </worldDimensions>
+   
+   <state id="isDebugMode">true</state>
+   
+   <view>
+  	  <trackingSprite>sprGavin</trackingSprite>
+   </view>   
+   
+   <resource id="scriptDebugger" type="script">
+      <src>/resources/debugger.bsh</src>
+   </resource>   
+   
+   <sprite id="sprDebugger">
+      <isVisible>false</isVisible>
+      <events>
+         <eventId>eventKP_D</eventId>
+      </events>
+      <script>scriptDebugger</script>
+   </sprite>
+   
+   <sprite id="sprBackgroundCollision_00">
+      <isVisible>false</isVisible>
+      <collision>
+   	     <isSolid>true</isSolid>
+   	     <filename>/resources/groundedTest.ai</filename>
+   	  </collision>
+   </sprite>
+   
+   <resource id="imgGavin" type="image">
+      <src>/resources/gavin.png</src>
+   </resource>
+   
+   <resource id="scriptPlayerHead" type="script">
+      <src>/resources/playerHead.bsh</src>
+   </resource>
+
+   <sprite id="sprGavin">
+      <imageId>imgGavin</imageId>
+      <isVisible>true</isVisible>
+      <health>9</health>
+      <maxHealth>10</maxHealth>
+      <scale>
+         <width>25</width>
+         <height>25</height>
+      </scale>
+      <position>
+         <x>83</x>
+         <y>14</y>
+      </position>
+      <collision>
+         <isSolid>true</isSolid>
+      </collision>
+      <physics>
+         <velocity>
+            <x>0</x>
+            <y>0</y></velocity>
+         <gravity>
+            <x>0</x>
+            <y>500</y></gravity>
+         <drag>90</drag>
+         <terminalVelocity>
+            <x>50</x>
+            <y>500</y></terminalVelocity>
+         <mass>100</mass>
+      </physics>
+      <events>
+         <eventId>eventKP_LEFT</eventId>
+         <eventId>eventKP_RIGHT</eventId>
+         <eventId>eventKR_LEFT</eventId>
+         <eventId>eventKR_RIGHT</eventId>
+         <eventId>eventKP_SPACE</eventId>
+         <eventId>eventKP_DOWN</eventId>
+         <eventId>eventKR_DOWN</eventId>
+         <eventId>eventKP_UP</eventId>
+         <eventId>eventKR_UP</eventId>
+         <eventId>eventKP_V</eventId>
+         <eventId>eventKR_V</eventId>
+      </events>
+      <states>
+          <state id="stateWalkingAcceleration">500</state>
+         <state id="stateJumpingAcceleration">-200</state>
+      </states>
+      <!-- script>scriptPacMan</script-->
+      <!-- script>scriptMario</script-->
+      <script>scriptPlayerHead</script>
+   </sprite>
+   
+   <resource id="imgLetter" type="image">
+      <src>/resources/letters.png</src>
+   </resource>
+   
+   <animation id="animLetter">
+      <imageId>imgLetter</imageId>
+      <numRows>6</numRows>
+      <numColumns>5</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>25</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>
+   
+   <resource id="scriptNumber" type="script">
+      <src>/resources/number.bsh</src>
+   </resource>   
+   
+   <sprite id="sprLetter" isTemplate="true">
+      <animationId>animLetter</animationId>
+   	<isVisible>true</isVisible>
+   	<scale>
+   	  <width>100</width>
+   	  <height>100</height>
+   	</scale>
+   	<position>
+   	   <x>300</x>
+   		<y>300</y>
+      </position>
+      <collision>
+         <isSolid>true</isSolid>
+      </collision>
+      <physics>
+         <velocity>
+            <x>0</x>
+            <y>0</y>
+         </velocity>
+         <gravity>
+            <x>0.0</x>
+            <y>500.0</y>
+         </gravity>
+         <drag>90</drag>
+         <terminalVelocity>
+            <x>50</x>
+            <y>500</y>
+         </terminalVelocity>
+         <mass>10</mass>
+      </physics>
+      <script>scriptNumber</script>
+      <health>0</health>
+      <maxHealth>0</maxHealth>
+      <damage>0</damage>
+   </sprite>
+   
+   <resource id="scriptWordGun" type="script">
+      <src>/resources/wordgun.bsh</src>
+   </resource>   
+   
+   <sprite id="sprWordGun" isTemplate="true">
+      <isVisible>false</isVisible>
+      <position>
+   	     <x>0</x>
+   		 <y>0</y>
+      </position>
+      <script>scriptWordGun</script>
+   </sprite>
+   
+   <resource id="imgHealthMeter" type="image">
+      <src>/resources/healthMeter.png</src>
+   </resource>
+   
+   <animation id="animHealthMeter">
+      <imageId>imgHealthMeter</imageId>
+      <numRows>11</numRows>
+      <numColumns>1</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>10</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>   
+   
+   <resource id="scriptHealthMeter" type="script">
+      <src>/resources/health.bsh</src>
+   </resource>
+   
+   <sprite id="sprHealthMeter" isTemplate="true">
+      <isVisible>true</isVisible>
+      <animationId>animHealthMeter</animationId>
+      <position>
+         <x>0</x>
+         <y>-20</y>
+      </position>
+      <coordsType>OFFSET</coordsType>
+      <script>scriptHealthMeter</script>
+   </sprite>
+   
+   <resource id="scriptOneShot" type="script">
+      <src>/resources/oneShot.bsh</src>
+   </resource>   
+   
+   <resource id="imgExplosion" type="image">
+      <src>/resources/explosion.png</src>
+   </resource>
+   
+   <animation id="animExplosion">
+      <imageId>imgExplosion</imageId>
+      <numRows>6</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>47</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>45</frameRate>   
+   </animation>
+   
+   <sprite id="sprExplosion" isTemplate="true">
+      <isVisible>true</isVisible>
+      <animationId>animExplosion</animationId>
+      <script>scriptOneShot</script>
+   </sprite>
+       
+</level>

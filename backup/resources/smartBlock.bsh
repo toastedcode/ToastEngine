@@ -1,0 +1,103 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+static final int facingLEFT = 0;
+static final int facingRIGHT = 1;
+
+static final int animLEFT = 0;
+static final int animRIGHT = 1;
+static final int animUP = 0;
+static final int animDOWN = 1;
+static final int animSTAND = 0;
+static final int animWALK = 1;
+static final int animJUMP = 2;
+static final int animTHRUST = 3;
+static final int animATTACK = 4;
+static final int animHURT = 5;
+
+static final int keyUP = 0;
+static final int keyDOWN = 1;
+static final int keyLEFT = 2;
+static final int keyRIGHT = 3;
+static final int keyV = 4;
+
+static final int frameAttackLowLeft = 8;
+static final int frameAttackHighLeft = 10;
+static final int frameAttackHighRight = 13;
+static final int frameAttackLowRight = 15;
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+Sprite thisSprite = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+}
+
+
+void handleEvent(Event event)
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   
+   double walkingAcceleration = Double.parseDouble(StateManager.getState(spriteId, "stateWalkingAcceleration"));
+   double jumpingAcceleration = Double.parseDouble(StateManager.getState(spriteId, "stateJumpingAcceleration"));
+   
+   if (event.getEventId() == "eventKP_RIGHT")
+   {
+      //thisSprite.move(new Vector2D(walkingAcceleration, 0.0));
+      physics.setAcceleration(new Vector2D(walkingAcceleration, 0.0));
+   }
+   else if (event.getEventId() == "eventKR_RIGHT")
+   {
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }   
+   else if (event.getEventId() == "eventKP_LEFT")
+   {
+      //thisSprite.move(new Vector2D(walkingAcceleration * -1.0, 0.0));
+      physics.setAcceleration(new Vector2D((walkingAcceleration * -1.0), 0.0));
+   }
+   else if (event.getEventId() == "eventKR_LEFT")
+   {
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }   
+   /*
+   else if (event.getEventId() == "eventKP_UP")
+   {
+      thisSprite.move(new Vector2D(0.0, walkingAcceleration * -1.0));
+   }
+   else if (event.getEventId() == "eventKP_DOWN")
+   {
+      thisSprite.move(new Vector2D(0.0, walkingAcceleration));
+   }
+   */
+   else if ((event.getEventId() == "eventKP_SPACE") &&
+            (thisSprite.isGrounded() == true))
+   {
+      physics.addVelocity(new Vector2D(0, jumpingAcceleration));         
+   }
+          
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************

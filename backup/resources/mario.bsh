@@ -1,0 +1,73 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+static final double WALKING_ACCELERATION = 500.0;  
+static final double JUMPING_ACCELERATION = -400.0;
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+Sprite thisSprite = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   physics.setGravity(new Vector2D(0, 500));
+   
+}
+
+
+void handleEvent(Event event)
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   
+   double walkingAcceleration = WALKING_ACCELERATION;
+   double jumpingAcceleration = JUMPING_ACCELERATION;
+   
+   if (event.getEventId() == "eventKP_RIGHT")
+   {
+      physics.setAcceleration(new Vector2D(walkingAcceleration, 0.0));
+   }
+   else if (event.getEventId() == "eventKR_RIGHT")
+   {
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }   
+   else if (event.getEventId() == "eventKP_LEFT")
+   {
+      physics.setAcceleration(new Vector2D((walkingAcceleration * -1.0), 0.0));
+   }
+   else if (event.getEventId() == "eventKR_LEFT")
+   {
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }   
+   else if (((event.getEventId() == "eventKP_SPACE") ||
+             (event.getEventId() == "eventKP_UP")) &&
+            (thisSprite.isGrounded() == true))
+   {
+      physics.addVelocity(new Vector2D(0, jumpingAcceleration));         
+   }
+          
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************

@@ -1,0 +1,122 @@
+package gameEngine;
+
+import java.util.HashMap;
+
+public class Event
+{
+   // **************************************************************************
+   //                          Private Operations
+   // **************************************************************************
+
+   public Event(
+      String initEventId)
+   {
+      eventId = initEventId;
+      payload = new HashMap<String, String>();
+      
+   }
+   
+   
+   public String getEventId()
+   {
+      return (eventId);
+   }
+   
+   
+   public void addPayload(
+      String name,
+      String value)
+   {
+      payload.put(name, value);
+   }
+   
+   
+   public void addPayload(
+      String name,
+      int value)
+   {
+      payload.put(name, String.valueOf(value));
+   }   
+   
+   
+   public void addPayload(
+      String name,
+      double value)
+   {
+      payload.put(name, String.valueOf(value));
+   }   
+   
+   
+   /*
+   public void addPayload(
+      String name,
+      Object value)
+   {
+      payload.put(name, value);
+   }
+   */   
+
+   
+   public double getDoublePayload(
+      String name)
+   {
+      double value = 0.0;
+      
+      if (payload.containsKey(name) == false)
+      {
+               
+      }
+      else
+      {
+         value = Double.parseDouble(payload.get(name));
+      }
+      
+      return (value); 
+   }
+   
+   
+   public double getIntPayload(
+      String name)
+   {
+      int value = 0;
+      
+      if (payload.containsKey(name) == false)
+      {
+               
+      }
+      else
+      {
+         value = Integer.parseInt(payload.get(name));
+      }
+      
+      return (value); 
+   }   
+   
+   
+   public String getStringPayload(
+      String name)
+   {
+      String value = "";
+      
+      if (payload.containsKey(name) == false)
+      {
+               
+      }
+      else
+      {
+         value = payload.get(name);
+      }
+      
+      return (value); 
+   }   
+      
+   
+   // **************************************************************************
+   //                          Private Attributes
+   // **************************************************************************
+   
+   private String eventId;
+   
+   private HashMap<String, String> payload;
+   
+}

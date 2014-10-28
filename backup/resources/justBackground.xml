@@ -1,0 +1,27 @@
+<level id="level_1">
+   
+   <worldDimensions>
+      <width>1920</width>
+      <height>1280</height>
+   </worldDimensions>   
+   
+   <state id="isDebugMode">false</state>
+   
+   <resource id="imgBackground" type="image">
+      <src>/resources/background.jpg</src>
+   </resource>
+   
+   <sprite id="sprBackground">
+      <imageId>imgBackground</imageId>
+   	  <isVisible>true</isVisible>
+   	  <scale>
+         <width>100</width>
+   		 <height>100</height>
+   	  </scale>
+      <position>
+   	     <x>0</x>
+   	     <y>0</y>
+   	  </position>
+   </sprite>
+       
+</level>

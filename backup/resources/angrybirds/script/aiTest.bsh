@@ -1,0 +1,50 @@
+import gameEngine.AI;
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+import java.awt.geom.Point2D;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+String timerId = null;
+String healthId = null;
+
+int facing = 0;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   healthId = SpriteManager.cloneSprite("sprHealthMeter", spriteId).getSpriteId();
+   thisSprite.getAi().trackSprite("sprSeth", 100);
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "eventDead")
+   {
+      TimerManager.cancelTimer(timerId);
+      SpriteManager.destroySprite(healthId);
+      SpriteManager.destroySprite(spriteId);
+   }   
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************

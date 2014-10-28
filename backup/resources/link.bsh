@@ -1,0 +1,267 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+static final int facingLEFT = 0;
+static final int facingRIGHT = 1;
+
+static final int animLEFT = 0;
+static final int animRIGHT = 1;
+static final int animUP = 0;
+static final int animDOWN = 1;
+static final int animSTAND = 0;
+static final int animWALK = 1;
+static final int animJUMP = 2;
+static final int animTHRUST = 3;
+static final int animATTACK = 4;
+static final int animHURT = 5;
+
+static final int keyUP = 0;
+static final int keyDOWN = 1;
+static final int keyLEFT = 2;
+static final int keyRIGHT = 3;
+static final int keyV = 4;
+
+static final int frameAttackLowLeft = 8;
+static final int frameAttackHighLeft = 10;
+static final int frameAttackHighRight = 13;
+static final int frameAttackLowRight = 15;
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+static int facing = facingLEFT;
+
+static boolean[] isKeyPressed = {false, false, false, false, false};
+ 
+static final String[][][] ANIMATIONS = new String[6][2][2];
+
+static final double WALKING_SPEED = 250.0;
+
+Sprite thisSprite = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+  
+   initializeAnimations();
+  
+   isFacingLeft = false;
+  
+   updateAnimation();
+  
+   TriggerManager.createTrigger(
+      "trgLinkAttackFrame",
+      spriteId,
+      spriteId,
+      Trigger.AttributeType.CURRENT_FRAME,
+      Trigger.OperatorType.EQUALS,
+      new Integer(frameAttackLowLeft));     
+     
+   TriggerManager.createTrigger(
+      "trgLinkAttackFrame",
+      spriteId,
+      spriteId,
+      Trigger.AttributeType.CURRENT_FRAME,
+      Trigger.OperatorType.EQUALS,
+      new Integer(frameAttackHighLeft));
+     
+   TriggerManager.createTrigger(
+      "trgLinkAttackFrame",
+      spriteId,
+      spriteId,
+      Trigger.AttributeType.CURRENT_FRAME,
+      Trigger.OperatorType.EQUALS,
+      new Integer(frameAttackHighRight));
+      
+   TriggerManager.createTrigger(
+      "trgLinkAttackFrame",
+      spriteId,
+      spriteId,
+      Trigger.AttributeType.CURRENT_FRAME,
+      Trigger.OperatorType.EQUALS,
+      new Integer(frameAttackLowRight));      
+  
+}
+
+
+void handleEvent(Event event)
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   
+   double walkingAcceleration = Double.parseDouble(StateManager.getState(spriteId, "stateWalkingAcceleration"));
+   double jumpingAcceleration = Double.parseDouble(StateManager.getState(spriteId, "stateJumpingAcceleration"));
+   
+   if (event.getEventId() == "eventKP_RIGHT")
+   {
+      facing = facingRIGHT;
+      isKeyPressed[keyRIGHT] = true;      
+   
+      if (physics.getVelocity().x < WALKING_SPEED)
+      {
+         physics.setAcceleration(new Vector2D(walkingAcceleration, 0.0));
+      }
+      else
+      {
+         physics.setAcceleration(new Vector2D(0.0, 0.0));            
+      }
+      
+      //Vector2D newVelocity = new Vector2D(200, physics.getVelocity().y);
+      //physics.setVelocity(newVelocity);
+   }
+   else if (event.getEventId() == "eventKP_LEFT")
+   {
+      facing = facingLEFT;
+      isKeyPressed[keyLEFT] = true;
+
+      if (physics.getVelocity().x > (WALKING_SPEED * -1.0))
+      {
+         physics.setAcceleration(new Vector2D((walkingAcceleration * -1.0), 0.0));
+      }
+      else
+      {
+         physics.setAcceleration(new Vector2D(0.0, 0.0));            
+      }
+
+      //Vector2D newVelocity = new Vector2D(-200, physics.getVelocity().y);
+      //physics.setVelocity(newVelocity);      
+   }
+   else if (event.getEventId() == "eventKR_RIGHT")
+   {
+      isKeyPressed[keyRIGHT] = false;
+   
+      physics.setAcceleration(new Vector2D(0.0, 0.0));      
+   }
+   else if (event.getEventId() == "eventKR_LEFT")
+   {
+      isKeyPressed[keyLEFT] = false;
+      
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }
+   else if (event.getEventId() == "eventKP_DOWN")
+   {
+      isKeyPressed[keyDOWN] = true;
+         
+      isDucking = true;
+   }
+   else if (event.getEventId() == "eventKR_DOWN") 
+   {
+      isKeyPressed[keyDOWN] = false;
+   }
+   else if (event.getEventId() == "eventKP_SPACE")
+   {
+      physics.addVelocity(new Vector2D(0, jumpingAcceleration));         
+   }
+   else if (event.getEventId() == "eventKP_V")
+   {
+      System.out.print("v pressed\n");
+      isKeyPressed[keyV] = true;         
+   }   
+   else if (event.getEventId() == "eventKR_V")
+   {
+       
+      isKeyPressed[keyV] = false;         
+   }
+   else if (event.getEventId() == "trgLinkAttackFrame")
+   {
+      System.out.print("Attack frame\n");   
+   }   
+   
+   updateAnimation();
+          
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************
+
+void initializeAnimations()
+{
+   ANIMATIONS[animSTAND][animUP][animLEFT] = StateManager.getState(spriteId, "animLeft");
+   ANIMATIONS[animSTAND][animUP][animRIGHT] = StateManager.getState(spriteId, "animRight");
+   ANIMATIONS[animSTAND][animDOWN][animLEFT] = StateManager.getState(spriteId, "animDuckLeft");
+   ANIMATIONS[animSTAND][animDOWN][animRIGHT] = StateManager.getState(spriteId, "animDuckRight");
+   
+   ANIMATIONS[animWALK][animUP][animLEFT] = StateManager.getState(spriteId, "animWalkLeft");
+   ANIMATIONS[animWALK][animUP][animRIGHT] = StateManager.getState(spriteId, "animWalkRight");
+   
+   ANIMATIONS[animJUMP][animUP][animLEFT] = StateManager.getState(spriteId, "animJumpLeft");
+   ANIMATIONS[animJUMP][animUP][animRIGHT] = StateManager.getState(spriteId, "animJumpRight");
+   
+   ANIMATIONS[animTHRUST][animUP][animLEFT] = StateManager.getState(spriteId, "animUpThrustLeft");   
+   ANIMATIONS[animTHRUST][animUP][animRIGHT] = StateManager.getState(spriteId, "animUpThrustRight");
+   ANIMATIONS[animTHRUST][animDOWN][animLEFT] = StateManager.getState(spriteId, "animDownThrustLeft");   
+   ANIMATIONS[animTHRUST][animDOWN][animRIGHT] = StateManager.getState(spriteId, "animDownThrustRight");   
+   
+   ANIMATIONS[animATTACK][animUP][animLEFT] = StateManager.getState(spriteId, "animHighAttackLeft");
+   ANIMATIONS[animATTACK][animUP][animRIGHT] = StateManager.getState(spriteId, "animHighAttackRight");
+   ANIMATIONS[animATTACK][animDOWN][animLEFT] = StateManager.getState(spriteId, "animLowAttackLeft");
+   ANIMATIONS[animATTACK][animDOWN][animRIGHT] = StateManager.getState(spriteId, "animLowAttackRight");
+   
+   ANIMATIONS[animHURT][animUP][animLEFT] = StateManager.getState(spriteId, "animHurtLeft");
+   ANIMATIONS[animHURT][animUP][animRIGHT] = StateManager.getState(spriteId, "animHurtRight");
+   
+}
+
+
+void updateAnimation()
+{
+   if (isKeyPressed[keyV] == true)
+   {
+      setAnimation(
+         ((facing == facingLEFT) ? 
+             ANIMATIONS[animATTACK][animUP][animLEFT] : 
+             ANIMATIONS[animATTACK][animUP][animRIGHT]));   
+   }
+   else if (isKeyPressed[keyDOWN] == true)
+   {
+      setAnimation(
+         ((facing == facingLEFT) ? 
+             ANIMATIONS[animSTAND][animDOWN][animLEFT] : 
+             ANIMATIONS[animSTAND][animDOWN][animRIGHT]));
+   }
+   else if (isKeyPressed[keyLEFT] == true)
+   {
+      setAnimation(ANIMATIONS[animWALK][animUP][animLEFT]);
+   }
+   else if (isKeyPressed[keyRIGHT] == true)
+   {
+      setAnimation(ANIMATIONS[animWALK][animUP][animRIGHT]);
+   }
+   else
+   {
+      setAnimation(
+         ((facing == facingLEFT) ? 
+             ANIMATIONS[animSTAND][animUP][animLEFT] : 
+             ANIMATIONS[animSTAND][animUP][animRIGHT]));   
+   }   
+      
+}
+
+
+void setAnimation(
+   String newAnimationId)
+{
+   if (thisSprite.getAnimation().equals(newAnimationId) == false)
+   {
+      thisSprite.setAnimation(newAnimationId);
+   }
+   
+}

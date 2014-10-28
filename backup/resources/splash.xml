@@ -1,0 +1,37 @@
+<level id="levelSplash">
+   
+   <worldDimensions>
+      <width>1920</width>
+      <height>1280</height>
+   </worldDimensions>   
+   
+   <resource id="imgBackground" type="image">
+      <src>/resources/SplashBackground.jpg</src>
+   </resource>
+   
+   <sprite id="sprBackground">
+      <imageId>imgBackground</imageId>
+      <isVisible>true</isVisible>
+   	  <scale>
+         <width>100</width>
+   		 <height>100</height>
+   	  </scale>
+      <position>
+   	     <x>0</x>
+   	     <y>0</y>
+   	  </position>
+   </sprite>
+   
+   <resource id="scriptLevelLoader" type="script">
+      <src>/resources/levelLoader.bsh</src>
+   </resource>
+   
+   <sprite id="sprLevelLoader">
+      <isVisible>false</isVisible>
+      <events>
+         <eventId>eventKP_SPACE</eventId>
+      </events>
+      <script>scriptLevelLoader</script>
+	</sprite>      
+   
+</level>

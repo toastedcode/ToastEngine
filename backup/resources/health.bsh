@@ -1,0 +1,92 @@
+import gameEngine.Event;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.EventManager;
+import gameEngine.StateManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+static final int NUM_ANIMATION_FRAMES = 11;  
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+
+void initialize()
+{
+   if (parentSprite != null)
+   {
+      TriggerManager.createTrigger(
+         thisSprite.getParentId(),
+         spriteId,
+         Trigger.AttributeType.HEALTH,
+         Trigger.OperatorType.CHANGED,
+         null,
+         "trgHealthUpdate");
+         
+      EventManager.registerSpriteForEvent(spriteId, "trgHealthUpdate");
+      
+      updateHealthMeter();
+   }
+   else
+   {
+      thisSprite.hide();
+   }   
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "trgHealthUpdate")
+   {
+      updateHealthMeter();
+   }   
+}
+
+
+void updateHealthMeter()
+{
+   parentSprite = SpriteManager.getSprite(thisSprite.getParentId());
+   
+   if (parentSprite == null)
+   {
+      SpriteManager.destroySprite(spriteId);
+   }
+   else
+   {
+      int health = parentSprite.getHealth();
+      int maxHealth = parentSprite.getMaxHealth();
+      int frame = 0;
+      
+      if ((health == 0) ||
+          (maxHealth == 0))
+      {
+         frame = 0;
+      }
+      else if (health > maxHealth)
+      {
+        frame = NUM_ANIMATION_FRAMES - 1;
+      }
+      else
+      {
+         double healthPercentage = (double)health / (double)maxHealth;
+         frame = (int)((double)(NUM_ANIMATION_FRAMES - 1) * healthPercentage);
+         
+         if (frame >=  NUM_ANIMATION_FRAMES)
+         {
+            frame = NUM_ANIMATION_FRAMES - 1;
+         }
+         else if ((health > 0) &&
+                  (frame == 0))
+         {
+            frame = 1;
+         }
+      }      
+   
+      thisSprite.setCurrentFrame(frame);
+   }
+}

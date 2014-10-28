@@ -1,0 +1,36 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import java.awt.geom.Point2D.Double;
+import java.lang.Math;
+import java.lang.System.*;
+
+void initialize()
+{
+   EventManager.registerSpriteForEvent(spriteId, "eventBeeTimer");
+   TimerManager.startTimer(2000, true, "eventBeeTimer");
+}
+
+
+void handleEvent(Event event)
+{
+   Sprite thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+
+   if (event.getEventId() == "eventBeeTimer")
+   {
+      double jumpingAcceleration = java.lang.Double.parseDouble(StateManager.getState(spriteId, "stateJumpingAcceleration"));
+      physics.addVelocity(new Vector2D(0, jumpingAcceleration));    
+   }
+   else if (event.getEventId() == "eventCollision")
+   {
+      String collidedSpriteId = event.getStringPayload("collidedSpriteId");
+      print(collidedSpriteId + " collided with " + spriteId + "\n");
+   }   
+          
+}

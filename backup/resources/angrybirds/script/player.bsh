@@ -1,0 +1,115 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import gameEngine.TriggerManager;
+import gameEngine.Trigger;
+import java.awt.geom.Point2D;
+import java.util.Random;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+static final double WALKING_ACCELERATION = 500.0;  
+static final double JUMPING_ACCELERATION = -400.0;
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+String gunId = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   thisSprite.setFacing(Sprite.Direction.DIRECTION_RIGHT);
+   
+   Sprite gun = SpriteManager.cloneSprite("sprBirdGun", spriteId);
+   gunId = gun.getSpriteId();
+   StateManager.setState(gunId, "stateOFFSET", 50);   
+   StateManager.setState(gunId, "stateSCALE", 50);
+   
+   Sprite healthMeter = SpriteManager.cloneSprite("sprHealthMeter", spriteId);
+}
+
+
+void handleEvent(Event event)
+{
+   Physics physics = thisSprite.getPhysics();
+   
+   double walkingAcceleration = WALKING_ACCELERATION;
+   double jumpingAcceleration = JUMPING_ACCELERATION;
+   
+   if (event.getEventId() == "eventKP_RIGHT")
+   {
+      thisSprite.setFacing(Sprite.Direction.DIRECTION_RIGHT);
+      physics.setAcceleration(new Vector2D(walkingAcceleration, 0.0));
+   }
+   else if (event.getEventId() == "eventKR_RIGHT")
+   {
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }   
+   else if (event.getEventId() == "eventKP_LEFT")
+   {
+      thisSprite.setFacing(Sprite.Direction.DIRECTION_LEFT);   
+      physics.setAcceleration(new Vector2D((walkingAcceleration * -1.0), 0.0));
+   }
+   else if (event.getEventId() == "eventKR_LEFT")
+   {
+      physics.setAcceleration(new Vector2D(0.0, 0.0));
+   }   
+   else if ((event.getEventId() == "eventKP_UP") &&
+            (thisSprite.isGrounded() == true))
+   {
+      physics.addVelocity(new Vector2D(0, jumpingAcceleration));         
+   }
+   else if (event.getEventId() == "eventKP_SPACE")
+   {
+      Event event = new Event("eventFIRE");
+      EventManager.sendEvent(event, gunId);
+   }
+   else if (event.getEventId() == "eventKP_Z")
+   {
+      Event event = new Event("eventFIRE");
+      event.addPayload("bird", "yellow");
+      EventManager.sendEvent(event, gunId);
+   }   
+   else if (event.getEventId() == "eventKP_X")
+   {
+      Event event = new Event("eventFIRE");
+      event.addPayload("bird", "bigred");
+      EventManager.sendEvent(event, gunId);
+   }   
+   else if (event.getEventId() == "eventKP_C")
+   {
+      Event event = new Event("eventFIRE");
+      event.addPayload("bird", "black");
+      EventManager.sendEvent(event, gunId);
+   }   
+   
+   updateAnimation();   
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************
+
+void updateAnimation()
+{
+	if (thisSprite.getFacing() == Sprite.Direction.DIRECTION_RIGHT)
+	{
+	   thisSprite.setAnimation("animPlayerRight");
+	}
+	else
+	{
+	   thisSprite.setAnimation("animPlayerLeft");	
+	}
+}

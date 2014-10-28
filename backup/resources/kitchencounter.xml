@@ -1,0 +1,337 @@
+<level id="levelKitchenCounter">
+   
+   <worldDimensions>
+      <width>3343</width>
+      <height>530</height>
+   </worldDimensions>
+   
+   <view>
+  	  <trackingSprite>sprSeth</trackingSprite>
+   </view>   
+   
+   <state id="isDebugMode">false</state>
+   
+   <resource id="scriptDebugger" type="script">
+      <src>/resources/debugger.bsh</src>
+   </resource>   
+   
+   <sprite id="sprDebugger">
+      <isVisible>false</isVisible>
+      <events>
+         <eventId>eventKP_D</eventId>
+      </events>
+      <script>scriptDebugger</script>
+   </sprite>
+   
+   <resource id="imgBackground" type="image">
+      <src>/resources/kitchenCounter.png</src>
+   </resource>
+   
+   <sprite id="sprBackground">
+      <imageId>imgBackground</imageId>
+   	<isVisible>true</isVisible>
+   	<scale>
+         <width>100</width>
+   		<height>100</height>
+   	</scale>
+      <position>
+   	   <x>0</x>
+   	   <y>0</y>
+   	</position>
+   </sprite>
+   
+   <sprite id="sprBackgroundCollision_00">
+      <isVisible>false</isVisible>
+      <collision>
+   	     <isSolid>true</isSolid>
+   	     <filename>/resources/kitchenCounter.ai</filename>
+   	  </collision>
+   </sprite>
+   
+   <sprite id="sprSeth">
+      <animationId>animPlayerRight</animationId>
+      <isVisible>true</isVisible>
+      <health>9</health>
+      <maxHealth>10</maxHealth>
+      <scale>
+         <width>25</width>
+         <height>25</height>
+      </scale>
+      <opacity>100</opacity>
+      <position>
+         <x>100</x>
+         <y>248</y>
+      </position>
+      <collision>
+         <isSolid>true</isSolid>
+         <rectangle>
+            <x>40</x>
+            <y>15</y>
+            <width>200</width>
+            <height>370</height>
+         </rectangle>
+      </collision>
+      <physics>
+         <velocity>
+            <x>0</x>
+            <y>0</y></velocity>
+         <gravity>
+            <x>0</x>
+            <y>500</y></gravity>
+         <drag>90</drag>
+         <terminalVelocity>
+            <x>50</x>
+            <y>500</y></terminalVelocity>
+         <mass>100</mass>
+      </physics>
+      <events>
+         <eventId>eventKP_LEFT</eventId>
+         <eventId>eventKP_RIGHT</eventId>
+         <eventId>eventKR_LEFT</eventId>
+         <eventId>eventKR_RIGHT</eventId>
+         <eventId>eventKP_SPACE</eventId>
+         <eventId>eventKP_DOWN</eventId>
+         <eventId>eventKR_DOWN</eventId>
+         <eventId>eventKP_UP</eventId>
+         <eventId>eventKR_UP</eventId>
+         <eventId>eventKP_V</eventId>
+         <eventId>eventKR_V</eventId>
+      </events>
+      <states>
+          <state id="stateWalkingAcceleration">500</state>
+         <state id="stateJumpingAcceleration">-200</state>
+      </states>
+      <script>scriptPlayerHead</script>
+   </sprite>
+   
+   <resource id="imgSeth" type="image">
+      <src>/resources/seth.png</src>
+   </resource>
+   
+   <animation id="animPlayerLeft">
+      <imageId>imgSeth</imageId>
+      <numRows>2</numRows>
+      <numColumns>2</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>0</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>   
+   
+   <animation id="animPlayerRight">
+      <imageId>imgSeth</imageId>
+      <numRows>2</numRows>
+      <numColumns>2</numColumns>
+      <startFrame>1</startFrame>
+      <endFrame>1</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>   
+   
+   <animation id="animPlayerDamageLeft">
+      <imageId>imgSeth</imageId>
+      <numRows>2</numRows>
+      <numColumns>2</numColumns>
+      <startFrame>2</startFrame>
+      <endFrame>2</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>2</frameRate>   
+   </animation>   
+   
+   <animation id="animPlayerDamageRight">
+      <imageId>imgSeth</imageId>
+      <numRows>2</numRows>
+      <numColumns>2</numColumns>
+      <startFrame>3</startFrame>
+      <endFrame>3</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>2</frameRate>   
+   </animation>   
+   
+   <resource id="scriptPlayerHead" type="script">
+      <src>/resources/playerHead.bsh</src>
+   </resource>
+   
+   <state id="playerOne">sprBlock_01</state>
+      
+   <resource id="imgLetter" type="image">
+      <src>/resources/letters.png</src>
+   </resource>
+   
+   <animation id="animLetter">
+      <imageId>imgLetter</imageId>
+      <numRows>6</numRows>
+      <numColumns>5</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>25</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>
+   
+   <resource id="scriptNumber" type="script">
+      <src>/resources/number.bsh</src>
+   </resource>   
+   
+   <sprite id="sprLetter" isTemplate="true">
+      <animationId>animLetter</animationId>
+   	<isVisible>true</isVisible>
+   	<scale>
+   	  <width>100</width>
+   	  <height>100</height>
+   	</scale>
+   	<position>
+   	   <x>300</x>
+   		<y>300</y>
+      </position>
+      <collision>
+         <isSolid>true</isSolid>
+      </collision>
+      <physics>
+         <velocity>
+            <x>0</x>
+            <y>0</y>
+         </velocity>
+         <gravity>
+            <x>0.0</x>
+            <y>500.0</y>
+         </gravity>
+         <drag>90</drag>
+         <terminalVelocity>
+            <x>50</x>
+            <y>500</y>
+         </terminalVelocity>
+         <mass>100</mass>
+      </physics>
+      <script>scriptNumber</script>
+      <health>1</health>
+      <maxHealth>1</maxHealth>
+      <damage>1</damage>
+   </sprite>
+   
+   <resource id="scriptWordGun" type="script">
+      <src>/resources/wordgun.bsh</src>
+   </resource>   
+   
+   <sprite id="sprWordGun" isTemplate="true">
+      <isVisible>false</isVisible>
+      <position>
+   	     <x>0</x>
+   		 <y>0</y>
+      </position>
+      <script>scriptWordGun</script>
+   </sprite>
+   
+   <resource id="imgHealthMeter" type="image">
+      <src>/resources/healthMeter.png</src>
+   </resource>
+   
+   <animation id="animHealthMeter">
+      <imageId>imgHealthMeter</imageId>
+      <numRows>11</numRows>
+      <numColumns>1</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>10</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NONE</animationType>
+      <frameRate>15</frameRate>   
+   </animation>   
+   
+   <resource id="scriptHealthMeter" type="script">
+      <src>/resources/health.bsh</src>
+   </resource>
+   
+   <sprite id="sprHealthMeter" isTemplate="true">
+      <isVisible>true</isVisible>
+      <animationId>animHealthMeter</animationId>
+      <position>
+         <x>0</x>
+         <y>-20</y>
+      </position>
+      <coordsType>OFFSET</coordsType>
+      <script>scriptHealthMeter</script>
+   </sprite>
+   
+   <resource id="scriptOneShot" type="script">
+      <src>/resources/oneShot.bsh</src>
+   </resource>   
+   
+   <resource id="imgExplosion" type="image">
+      <src>/resources/explosion.png</src>
+   </resource>
+   
+   <animation id="animExplosion">
+      <imageId>imgExplosion</imageId>
+      <numRows>6</numRows>
+      <numColumns>8</numColumns>
+      <startFrame>0</startFrame>
+      <endFrame>47</endFrame>
+      <animationDirection>1</animationDirection>
+      <animationType>ANIMATION_NORMAL</animationType>
+      <frameRate>45</frameRate>   
+   </animation>
+   
+   <sprite id="sprExplosion" isTemplate="true">
+      <isVisible>true</isVisible>
+      <animationId>animExplosion</animationId>
+      <script>scriptOneShot</script>
+   </sprite>
+   
+   <resource id="imgSinkMask_00" type="image">
+      <src>/resources/sinkMask_00.png</src>
+   </resource>
+   
+   <sprite id="sprSinkMask_00">
+      <imageId>imgSinkMask_00</imageId>
+   	<isVisible>true</isVisible>
+   	<scale>
+         <width>100</width>
+   		<height>100</height>
+   	</scale>
+      <position>
+   	   <x>700</x>
+   	   <y>418</y>
+   	</position>
+   </sprite>
+   
+   <resource id="imgSinkMask_01" type="image">
+      <src>/resources/sinkMask_01.png</src>
+   </resource>
+   
+   <sprite id="sprSinkMask_01">
+      <imageId>imgSinkMask_01</imageId>
+   	<isVisible>true</isVisible>
+   	<scale>
+         <width>100</width>
+   		<height>100</height>
+   	</scale>
+      <position>
+   	   <x>1023</x>
+   	   <y>393</y>
+   	</position>
+   </sprite>
+   
+   <resource id="imgPanMask" type="image">
+      <src>/resources/panMask.png</src>
+   </resource>
+   
+   <sprite id="sprPanMask">
+      <imageId>imgPanMask</imageId>
+   	<isVisible>true</isVisible>
+   	<scale>
+         <width>100</width>
+   		<height>100</height>
+   	</scale>
+      <position>
+   	   <x>2110</x>
+   	   <y>381</y>
+   	</position>
+   </sprite>   
+   
+   
+       
+</level>

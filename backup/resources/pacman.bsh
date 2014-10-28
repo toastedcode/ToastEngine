@@ -1,0 +1,62 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.EventManager;
+
+// **************************************************************************
+//                                  Constants
+// **************************************************************************
+
+static final double WALKING_ACCELERATION = 10.0; 
+
+// **************************************************************************
+//                             Static variables
+// **************************************************************************
+
+Sprite thisSprite = null;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+ 
+void initialize()
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   physics.setGravity(new Vector2D(0, 0));
+}
+
+
+void handleEvent(Event event)
+{
+   thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   
+   double walkingAcceleration = WALKING_ACCELERATION;
+   
+   if (event.getEventId() == "eventKP_RIGHT")
+   {
+      thisSprite.move(new Vector2D(walkingAcceleration, 0.0));
+   }
+   else if (event.getEventId() == "eventKP_LEFT")
+   {
+      thisSprite.move(new Vector2D(walkingAcceleration * -1.0, 0.0));
+   }
+   else if (event.getEventId() == "eventKP_UP")
+   {
+      thisSprite.move(new Vector2D(0.0, walkingAcceleration * -1.0));
+   }
+   else if (event.getEventId() == "eventKP_DOWN")
+   {
+      thisSprite.move(new Vector2D(0.0, walkingAcceleration));
+   }
+          
+}
+
+// **************************************************************************
+//                            Private Operations
+// **************************************************************************
+

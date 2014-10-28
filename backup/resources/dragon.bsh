@@ -1,0 +1,44 @@
+import gameEngine.Event;
+import gameEngine.StateManager;
+import gameEngine.SpriteManager;
+import gameEngine.Sprite;
+import gameEngine.Physics;
+import gameEngine.Vector2D; 
+import gameEngine.TimerManager;
+import gameEngine.EventManager;
+import java.awt.geom.Point2D.Double;
+import java.lang.Math;
+
+void initialize()
+{
+   Sprite thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+   physics.setVelocity(new Vector2D(60, 0));
+   StateManager.setState(spriteId, "stateDragonDir", "RIGHT");
+   
+   EventManager.registerSpriteForEvent(spriteId, "eventDragonTimer");
+   TimerManager.startTimer(5000, true, "eventDragonTimer");
+
+}
+
+
+void handleEvent(Event event)
+{
+   Sprite thisSprite = SpriteManager.getSprite(spriteId);
+   Physics physics = thisSprite.getPhysics();
+
+   if (event.getEventId() == "eventDragonTimer")
+   {
+      if (StateManager.getState(spriteId, "stateDragonDir") == "RIGHT")
+      {
+         StateManager.setState(spriteId, "stateDragonDir", "LEFT");
+         physics.setVelocity(new Vector2D(-60, 0));
+      }
+      else
+      {
+         physics.setVelocity(new Vector2D(60, 0));
+         StateManager.setState(spriteId, "stateDragonDir", "RIGHT");      
+      }  
+   }   
+          
+}

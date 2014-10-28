@@ -1,0 +1,6 @@
+void update(elapsedTime)
+{
+   print("Here!\n");
+}
+
+   print("Inside script!\n");

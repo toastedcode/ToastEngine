@@ -1,0 +1,77 @@
+<level id="collisionTest">
+   
+   <worldDimensions>
+      <width>800</width>
+      <height>600</height>
+   </worldDimensions>
+   
+   <state id="isDebugMode">true</state>
+   
+   <view>
+  	  <trackingSprite>sprGavin</trackingSprite>
+   </view>
+   
+   <sprite id="sprText">
+      <isVisible>true</isVisible>
+      <text>
+         <textString>FUDGE</textString>
+	      <position>
+	         <x>100</x>
+	         <y>100</y>
+	      </position>
+         <font>
+            <fontName>SansSerif</fontName>
+            <fontStyle>1</fontStyle>
+            <fontSize>20</fontSize>
+         </font>
+         <color>red</color>
+      </text>
+   </sprite>
+      
+   
+   <sprite id="sprBackgroundCollision_00">
+      <isVisible>false</isVisible>
+      <collision>
+   	     <isSolid>true</isSolid>
+   	     <filename>/resources/collisionTest.ai</filename>
+   	  </collision>
+   </sprite>
+   
+   <resource id="imgGavin" type="image">
+      <src>/resources/gavin.png</src>
+   </resource>
+   
+   <resource id="scriptPlayerHead" type="script">
+      <src>/resources/playerHead.bsh</src>
+   </resource>
+
+   <sprite id="sprGavin">
+      <imageId>imgGavin</imageId>
+      <isVisible>true</isVisible>
+      <scale>
+         <width>25</width>
+         <height>25</height>
+      </scale>
+      <position>
+         <x>313</x>
+         <y>282</y>
+      </position>
+      <collision>
+         <isSolid>true</isSolid>
+      </collision>
+      <physics>
+         <velocity>
+            <x>-500</x>
+            <y>0</y></velocity>
+         <gravity>
+            <x>0</x>
+            <y>500</y></gravity>
+         <drag>90</drag>
+         <terminalVelocity>
+            <x>50</x>
+            <y>500</y></terminalVelocity>
+         <mass>100</mass>
+      </physics>
+   </sprite>
+       
+</level>

@@ -1,0 +1,16 @@
+import gameEngine.Event;
+import gameEngine.EventManager;
+import gameEngine.SpriteManager;
+
+void initialize()
+{
+}
+
+
+void handleEvent(Event event)
+{
+   if (event.getEventId() == "eventAnimationFinished")
+   {
+      SpriteManager.destroySprite(spriteId);
+   }
+}
