@@ -7,7 +7,6 @@ import com.toast.game.engine.property.Transform;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class HealthEditorPanelTest
@@ -29,11 +28,7 @@ public class HealthEditorPanelTest
       
       centerPanel.add(new HealthEditor(health));
       centerPanel.add(new TransformEditor(transform));
-      
-      frame.getContentPane().add(new JLabel("North"), BorderLayout.NORTH);
-      frame.getContentPane().add(new JLabel("South"), BorderLayout.SOUTH);
-      frame.getContentPane().add(new JLabel("East"), BorderLayout.EAST);
-      frame.getContentPane().add(new JLabel("West"), BorderLayout.WEST);
+
       frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
       
       frame.setVisible(true);

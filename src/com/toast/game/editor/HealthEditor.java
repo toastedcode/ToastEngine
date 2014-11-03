@@ -11,13 +11,16 @@ import javax.swing.event.DocumentListener;
 import com.toast.game.engine.property.Health;
 
 @SuppressWarnings("serial")
-public class HealthEditor extends JPanel
+public class HealthEditor extends CollapsiblePanel
 {
    public HealthEditor(
       Health health)
    {
+      super("Health");
+      
       this.health = health;
-      createPanel();
+      
+      setContent(getContentPanel());
    }
    
    
@@ -44,58 +47,61 @@ public class HealthEditor extends JPanel
    
    
    public boolean validateMaxHealth(
-         String stringValue)
-      {
-         boolean isValid = false;
-         
-         int intValue;
-         try
-         {
-            intValue = Integer.valueOf(stringValue);
-            
-            isValid = (intValue >= health.MIN_HEALTH);
-         }
-         catch (Exception e)
-         {
-            // Not an integer!
-         }
-         
-         return (isValid);
-      }
-   
-   private JTextField healthInputField;
-   private JTextField maxHealthInputField;
-   
-   private void createPanel()
+      String stringValue)
    {
-      createHealthInput();
-      createMaxHealthInput();
+      boolean isValid = false;
+      
+      int intValue;
+      try
+      {
+         intValue = Integer.valueOf(stringValue);
+         
+         isValid = (intValue >= health.MIN_HEALTH);
+      }
+      catch (Exception e)
+      {
+         // Not an integer!
+      }
+      
+      return (isValid);
+   }
+   
+   private JPanel getContentPanel()
+   {
+      JPanel contentPanel = new JPanel();
+      
+      contentPanel.add(getHealthPanel());
+      contentPanel.add(getMaxHealthPanel());
+      
+      return (contentPanel);
    }
    
    
-   void createHealthInput()
+   JPanel getHealthPanel()
    {
-      healthInputField = new JTextField();
-      healthInputField.setColumns(4);
-      healthInputField.setText(Integer.toString(health.getHealth()));
-      healthInputField.getDocument().addDocumentListener(new DocumentListener()
+      JPanel panel = new JPanel();
+      
+      final JTextField input = new JTextField();
+      input.setColumns(4);
+      input.setText(Integer.toString(health.getHealth()));
+      input.getDocument().addDocumentListener(new DocumentListener()
       {
          @Override
          public void changedUpdate(DocumentEvent event)
          {
-            onUpdate(healthInputField.getText());
+            onUpdate(input.getText());
          }
 
          @Override
          public void insertUpdate(DocumentEvent arg0)
          {
-            onUpdate(healthInputField.getText()); 
+            onUpdate(input.getText()); 
          }
 
          @Override
          public void removeUpdate(DocumentEvent arg0)
          {
-            onUpdate(healthInputField.getText());
+            onUpdate(input.getText());
          }
          
          void onUpdate(
@@ -104,43 +110,47 @@ public class HealthEditor extends JPanel
             if (validateHealth(text) == true)
             {
                health.setHealth(Integer.valueOf(text));
-               healthInputField.setForeground(Color.BLACK);
+               input.setForeground(Color.BLACK);
             }
             else
             {
-               healthInputField.setForeground(Color.RED);
+               input.setForeground(Color.RED);
             }
          }
       });
       
-      add(new JLabel("Health"));
-      add(healthInputField);      
+      panel.add(new JLabel("Health"));
+      panel.add(input);
+      
+      return (panel);
    }
    
    
-   void createMaxHealthInput()
+   private JPanel getMaxHealthPanel()
    {
-      maxHealthInputField = new JTextField();
-      maxHealthInputField.setColumns(4);
-      maxHealthInputField.setText(Integer.toString(health.getMaxHealth()));
-      maxHealthInputField.getDocument().addDocumentListener(new DocumentListener()
+      JPanel panel = new JPanel();
+      
+      final JTextField input = new JTextField();
+      input.setColumns(4);
+      input.setText(Integer.toString(health.getMaxHealth()));
+      input.getDocument().addDocumentListener(new DocumentListener()
       {
          @Override
          public void changedUpdate(DocumentEvent event)
          {
-            onUpdate(maxHealthInputField.getText());
+            onUpdate(input.getText());
          }
 
          @Override
          public void insertUpdate(DocumentEvent arg0)
          {
-            onUpdate(maxHealthInputField.getText()); 
+            onUpdate(input.getText()); 
          }
 
          @Override
          public void removeUpdate(DocumentEvent arg0)
          {
-            onUpdate(maxHealthInputField.getText());
+            onUpdate(input.getText());
          }
          
          void onUpdate(
@@ -149,17 +159,19 @@ public class HealthEditor extends JPanel
             if (validateMaxHealth(text) == true)
             {
                health.setMaxHealth(Integer.valueOf(text));
-               maxHealthInputField.setForeground(Color.BLACK);
+               input.setForeground(Color.BLACK);
             }
             else
             {
-               maxHealthInputField.setForeground(Color.RED);
+               input.setForeground(Color.RED);
             }
          }
       });
       
-      add(new JLabel("Max health"));
-      add(maxHealthInputField);          
+      panel.add(new JLabel("Max health"));
+      panel.add(input);
+      
+      return (panel);
    }
    
    private Health health;

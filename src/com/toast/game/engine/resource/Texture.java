@@ -1,7 +1,9 @@
 package com.toast.game.engine.resource;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 
 public class Texture extends Resource
@@ -18,7 +20,7 @@ public class Texture extends Resource
    {
       try
       {
-         bufferedImage = ImageIO.read(getClass().getResource(filename));
+         bufferedImage = ImageIO.read(new File(filename));
          isLoaded = true;
       }
       catch (IOException e)

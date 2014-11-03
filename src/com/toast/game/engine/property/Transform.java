@@ -30,6 +30,18 @@ public class Transform extends Component
    {
       this.position.setLocation(position.getX(), position.getY());
    }
+   
+   
+   public int getZOrder()
+   {
+      return (zOrder);
+   }
+   
+   
+   public void setZOrder(int zOrder)
+   {
+      this.zOrder = zOrder;
+   }
 
    
    public CoordinatesType getCoordsType()
@@ -65,6 +77,8 @@ public class Transform extends Component
    }
    
    private Point2D.Double position;
+   
+   private int zOrder;
    
    private CoordinatesType coordsType;
    

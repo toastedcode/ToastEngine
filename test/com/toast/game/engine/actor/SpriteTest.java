@@ -14,7 +14,6 @@ import javax.swing.Timer;
 import com.toast.game.engine.property.Animation;
 import com.toast.game.engine.property.Animation.AnimationDirection;
 import com.toast.game.engine.property.Animation.AnimationType;
-import com.toast.game.engine.property.Display;
 import com.toast.game.engine.property.Transform;
 import com.toast.game.engine.resource.AnimationMap;
 import com.toast.game.engine.resource.Resource;
@@ -38,20 +37,15 @@ public class SpriteTest
          
          Animation walk = new Animation("boxy.walk", image, animationMap, "walk", 1);
          walk.start(AnimationType.LOOP, AnimationDirection.FORWARD);
-      
-         Display display = new Display("display");
-         display.addChild(idle);
-         display.addChild(walk);
-         display.setDrawable(walk);
          
          Transform transform = new Transform();
          transform.setPosition(new Point2D.Double(50, 50));
          transform.setScale(1.5);
          
          final Sprite boxy = new Sprite("boxy", null);
-         boxy.addChild(display);
-         boxy.addChild(idle);
-         boxy.addChild(transform);
+         boxy.add(idle);
+         boxy.add(walk);
+         boxy.add(transform);
          
          @SuppressWarnings("serial")
          final JPanel centerPanel = new JPanel(){

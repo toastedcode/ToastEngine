@@ -1,5 +1,6 @@
 package com.toast.game.engine.resource;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,29 @@ public abstract class Resource
    }
    
    
+   public static void createResources(
+      String path) throws ResourceCreationException
+   {
+      File[] files = new File(path).listFiles();
+      
+      if (files != null)
+      {
+         for (File file : files)
+         {
+            if (file.isDirectory())
+            {
+               createResources(file.getPath());
+            }
+            else
+            {
+               createResource(file.getPath());
+            }
+         }
+      }
+   }
+   
+   
+   
    public static Resource createResource(
       String filename) throws ResourceCreationException
    {
@@ -25,7 +49,7 @@ public abstract class Resource
 
       try
       {
-         String srcFilename = filename.substring(filename.lastIndexOf('/') + 1);
+         String srcFilename = filename.substring(filename.lastIndexOf('\\') + 1);
          String extension = srcFilename.substring(srcFilename.lastIndexOf('.'));
          ResourceType resourceType = ResourceType.getResourceType(extension);
          String id = srcFilename;

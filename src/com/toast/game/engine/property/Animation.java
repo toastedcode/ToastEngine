@@ -5,8 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Point2D;
 
 import com.toast.game.engine.interfaces.Drawable;
+import com.toast.game.engine.interfaces.Transformable;
 import com.toast.game.engine.interfaces.Updatable;
 import com.toast.game.engine.resource.AnimationMap;
 import com.toast.game.engine.resource.Texture;
@@ -111,26 +113,29 @@ public class Animation extends Property implements Drawable, Updatable
    public void update(
       long elapsedTime)
    {
-      // Remember the current frame.
-      int previousFrame = currentFrame;
-      
-      elapsedAnimationTime += elapsedTime;
-      if (shouldAdvanceFrame(elapsedAnimationTime));
+      if (isEnabled() == true)
       {
-         elapsedAnimationTime = 0;
-         currentFrame = getNextFrame(currentFrame);
-      }
-      
-      // Determine if our current animation just finished.
-      if ((currentFrame != previousFrame) &&
-          (isFinished(currentFrame) == true))
-      {
-         // Send the "animation finished" event.
-         /*
-         Event event = new Event("eventAnimationFinished");
-         event.addPayload("animation", animation.getAnimationId());
-         EventManager.sendEvent(event, spriteId);
-         */
+         // Remember the current frame.
+         int previousFrame = currentFrame;
+         
+         elapsedAnimationTime += elapsedTime;
+         if (shouldAdvanceFrame(elapsedAnimationTime));
+         {
+            elapsedAnimationTime = 0;
+            currentFrame = getNextFrame(currentFrame);
+         }
+         
+         // Determine if our current animation just finished.
+         if ((currentFrame != previousFrame) &&
+             (isFinished(currentFrame) == true))
+         {
+            // Send the "animation finished" event.
+            /*
+            Event event = new Event("eventAnimationFinished");
+            event.addPayload("animation", animation.getAnimationId());
+            EventManager.sendEvent(event, spriteId);
+            */
+         }
       }
    }
    
@@ -153,29 +158,35 @@ public class Animation extends Property implements Drawable, Updatable
    
    @Override
    public void draw(
-      Graphics graphics,
-      Point position,
-      double scale)
+      Graphics graphics)
    {
-      AnimationMap.Frame frame = ANIMATION_MAP.getFrame(ANIMATION_ID,  currentFrame);
-      
-      Rectangle sourceRectangle = new Rectangle(frame.getPosition(), frame.getDimension());
-      
-      Rectangle destinationRectangle = new Rectangle(position,
-                                                     new Dimension((int)(frame.getDimension().getWidth() * scale), 
-                                                                   (int)(frame.getDimension().getHeight() * scale)));
-      
-      ((Graphics2D)graphics).drawImage(
-         TEXTURE.getBufferedImage(), 
-         destinationRectangle.x, 
-         destinationRectangle.y, 
-         (destinationRectangle.x + destinationRectangle.width), 
-         (destinationRectangle.y + destinationRectangle.height), 
-         sourceRectangle.x, 
-         sourceRectangle.y, 
-         (sourceRectangle.x+ sourceRectangle.width), 
-         (sourceRectangle.y + sourceRectangle.height), 
-         null);      
+      if (isVisible() == true)
+      {
+         // Determine the position of the animation from the parent, if applicable.
+         Point position = getPosition();
+         double scale = getScale();
+         
+         // Retrieve the current frame.
+         AnimationMap.Frame frame = ANIMATION_MAP.getFrame(ANIMATION_ID,  currentFrame);
+         
+         Rectangle sourceRectangle = new Rectangle(frame.getPosition(), frame.getDimension());
+         
+         Rectangle destinationRectangle = new Rectangle(position,
+                                                        new Dimension((int)(frame.getDimension().getWidth() * scale), 
+                                                                      (int)(frame.getDimension().getHeight() * scale)));
+         
+         ((Graphics2D)graphics).drawImage(
+            TEXTURE.getBufferedImage(), 
+            destinationRectangle.x, 
+            destinationRectangle.y, 
+            (destinationRectangle.x + destinationRectangle.width), 
+            (destinationRectangle.y + destinationRectangle.height), 
+            sourceRectangle.x, 
+            sourceRectangle.y, 
+            (sourceRectangle.x+ sourceRectangle.width), 
+            (sourceRectangle.y + sourceRectangle.height), 
+            null);
+      }
    }
    
    // **************************************************************************
@@ -306,6 +317,32 @@ public class Animation extends Property implements Drawable, Updatable
                
       return ((isFiniteAnimation == true) && 
               (isFinalFrame == true));
+   }
+   
+   
+   private Point getPosition()
+   {
+      Point position = new Point(0, 0);
+      
+      if (getParent() instanceof Transformable)
+      {
+         position = new Point((int)((Transformable)getParent()).getX(), (int)((Transformable)getParent()).getY());
+      }
+      
+      return (position);
+   }
+   
+   
+   private double getScale()
+   {
+      double scale = 1.0;
+      
+      if (getParent() instanceof Transformable)
+      {
+         scale = ((Transformable)getParent()).getScale();
+      }
+      
+      return (scale);
    }
    
    // **************************************************************************

@@ -61,7 +61,8 @@ public class Script extends Resource
       try
       {
          URL url = getClass().getResource(filename);
-         interpreter.eval(new BufferedReader(new InputStreamReader(url.openStream())));
+         //interpreter.eval(new BufferedReader(new InputStreamReader(url.openStream())));
+         interpreter.source(filename);
          isLoaded = true;
       }
       catch (IOException | EvalError e)

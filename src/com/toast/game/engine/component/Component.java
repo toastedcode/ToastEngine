@@ -5,6 +5,22 @@ import com.toast.game.common.ClassSet;
 
 public class Component
 {
+   protected Component()
+   {
+      ID = null;
+      CLASS_SET = null;
+      PARENT = null;
+   }
+
+   
+   protected Component(String id)
+   {
+      ID = id;
+      CLASS_SET = null;
+      PARENT = null;
+   }
+   
+   
    protected Component(
       String id,
       ClassSet classSet)

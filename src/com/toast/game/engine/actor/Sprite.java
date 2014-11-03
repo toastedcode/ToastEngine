@@ -6,7 +6,6 @@ import java.awt.Point;
 import com.toast.game.common.ClassSet;
 import com.toast.game.engine.component.Component;
 import com.toast.game.engine.interfaces.Drawable;
-import com.toast.game.engine.property.Display;
 import com.toast.game.engine.property.Transform;
 
 public class Sprite extends Actor implements Drawable
@@ -39,6 +38,21 @@ public class Sprite extends Actor implements Drawable
          }
       }
    }
+   
+
+   @Override
+   public int getWidth()
+   {
+      // TODO Auto-generated method stub
+      return 0;
+   }
+
+   @Override
+   public int getHeight()
+   {
+      // TODO Auto-generated method stub
+      return 0;
+   }   
    
    
    private Transform getTransform()

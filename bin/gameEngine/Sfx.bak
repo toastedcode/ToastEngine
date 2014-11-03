@@ -1,0 +1,162 @@
+package gameEngine;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+
+import simpleXml.XmlNode;
+
+public class Sfx implements LineListener
+{
+   // **************************************************************************
+   //                          Public operations
+   // **************************************************************************
+   
+   // Constructor
+   public Sfx(
+      XmlNode node)
+   {
+      initialize(node);
+   }
+   
+   public void save(
+      XmlNode node)
+   {
+      // Create the resource node.
+      XmlNode sfxNode = node.appendChild("resource");
+      
+      // type
+      sfxNode.setAttribute("type", "sfx");
+      
+      // sfxId
+      sfxNode.setAttribute("id", sfxId);
+      
+      // src
+      sfxNode.appendChild("src", srcFilename);
+   }      
+   
+   
+   // This operation retrieves the id for a Sfx.
+   public String getSfxId()
+   {
+      return (sfxId);
+   }
+   
+   
+   // This operation causes the Sfx to be played.
+   public void play()
+   {
+      clip.stop();
+      clip.setFramePosition(0);        
+      clip.loop(0);
+   }
+   
+   
+   // This operation causes the Sfx to be looped.
+   public void loop(
+      // The number of times to loop the Sfx.
+      // Specify Clip.LOOP_CONTINUOUSLY for an infinite loop.
+      int count)
+   {
+      clip.stop();
+      clip.setFramePosition(0);         
+      clip.loop(count);
+   }   
+   
+   
+   // This operation rewinds the clip to its beginning.
+   public void reset()
+   {
+      clip.setFramePosition(0);      
+   }
+
+   
+   // This operation pauses the playing of the sound clip.
+   public void pause()
+   {
+      clip.stop();
+   }
+   
+   
+   // This operation stops the clip and resets it to the beginning.
+   public void stop()
+   {
+      pause();
+      reset();
+   }
+   
+   
+   // **************************************************************************
+   //                           LineListener operations   
+   
+   @Override
+   public void update(LineEvent event)
+   {
+      // TODO Auto-generated method stub
+      
+   }   
+   
+   // **************************************************************************
+   //                          Private operations
+   // **************************************************************************
+   
+   private void initialize()
+   {
+      clip.addLineListener(this);
+      
+      sfxId = null;
+      srcFilename = null;
+      clip = null;
+   }
+   
+   
+   private void initialize(
+      XmlNode node)
+   {
+      // First, initialize all attributes to their default values.
+      initialize();
+      
+      // Extract the Sfx id.
+      sfxId = node.getAttribute("id");
+      
+      // An valid image node requires a "src" node.
+      if (node.hasChild("src") == false)
+      {
+         logger.log(Level.WARNING, "No sfx source was specified.");         
+      }
+      else
+      {
+         // Extract the src file name.
+         srcFilename = node.getChild("src").getValue();
+         
+         // Load the sfx.
+         clip = ResourceManager.loadSfx(srcFilename);
+         
+         // Check for success.
+         if (clip == null)
+         {
+            logger.log(Level.WARNING,
+                       String.format("Failed to load sfx from file [%s].", srcFilename)); 
+            
+         }
+      }
+   }
+      
+   // **************************************************************************
+   //                          Private attributes
+   // **************************************************************************
+   
+   // Logging
+   private final static Logger logger = Logger.getLogger(Sfx.class.getName());
+   
+   // A unique identifier for a Sfx.
+   String sfxId;
+   
+   // The source file from which this Sfx was loaded.
+   String srcFilename;   
+   
+   // The sound Clip object storing the audio data for this Sfx.
+   Clip clip;
+}
