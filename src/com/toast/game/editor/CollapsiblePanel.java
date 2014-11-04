@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -15,6 +16,8 @@ public class CollapsiblePanel extends JPanel
    public CollapsiblePanel(
       String title)
    {
+      this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+      
       JPanel titlePanel = createTitlePanel(title);
       add(titlePanel);
       

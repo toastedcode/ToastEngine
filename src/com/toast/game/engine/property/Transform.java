@@ -3,14 +3,30 @@ package com.toast.game.engine.property;
 import java.awt.geom.Point2D;
 
 import com.toast.game.common.CoordinatesType;
-import com.toast.game.engine.component.Component;
 
-public class Transform extends Component
+public class Transform extends Property
 {
    public Transform()
    {
-      super();
-      initialize();
+      super("transform");
+      
+      position = new Point2D.Double(0, 0);
+      coordsType = CoordinatesType.WORLD;
+      scale = 1.0;
+      //rotation = 0;   
+   }
+   
+   
+   public Transform(
+      Point2D.Double position,
+      double scale)
+   {
+      super("transform");
+      
+      this.position = (Point2D.Double)position.clone();
+      coordsType = CoordinatesType.WORLD;
+      this.scale = scale;
+      //rotation = 0;   
    }
   
    
@@ -65,15 +81,6 @@ public class Transform extends Component
    public void setScale(double scale)
    {
       this.scale = scale;
-   }
-   
-   
-   private void initialize()
-   {
-      position = new Point2D.Double(0, 0);
-      coordsType = CoordinatesType.WORLD;
-      scale = 1.0;
-      //rotation = 0;      
    }
    
    private Point2D.Double position;

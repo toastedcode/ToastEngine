@@ -3,7 +3,6 @@ package com.toast.game.engine.property;
 import bsh.EvalError;
 import bsh.Interpreter;
 import java.awt.Graphics;
-import java.awt.Point;
 
 import com.toast.game.engine.interfaces.Drawable;
 import com.toast.game.engine.interfaces.Updatable;
@@ -36,7 +35,7 @@ public class ScriptInstance extends Property implements Drawable, Updatable
    
    
    @Override
-   public void draw(Graphics graphics, Point position, double scale)
+   public void draw(Graphics graphics)
    {
       evaluate(Script.ScriptFunction.DRAW);
    }
@@ -45,15 +44,25 @@ public class ScriptInstance extends Property implements Drawable, Updatable
    @Override
    public int getWidth()
    {
-      return ((Drawable)getParent()).getWidth();
+      // TODO
+      return (0);
    }
 
    
    @Override
    public int getHeight()
    {
-      return ((Drawable)getParent()).getWidth();
+      // TODO
+      return (0);
    }
+   
+   
+   @Override
+   public boolean isVisible()
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }   
    
    
    @Override

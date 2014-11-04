@@ -27,8 +27,8 @@ public class AnimationTest
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          frame.setSize(300, 300);
          
-         Texture image = (Texture)Resource.createResource("/resources/images/boxy.png");
-         AnimationMap animationMap = (AnimationMap)Resource.createResource("/resources/animations/boxy.anim");
+         Texture image = (Texture)Resource.createResource(Resource.getResourcePath() + "\\images\\boxy.png");
+         AnimationMap animationMap = (AnimationMap)Resource.createResource(Resource.getResourcePath() + "\\animations\\boxy.anim");
 
          final Animation idle = new Animation("boxy.idle", image, animationMap, "idle", 1);
          

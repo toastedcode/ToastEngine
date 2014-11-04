@@ -28,7 +28,7 @@ public class TextureTest
    @Test
    public void testGetId() throws ResourceCreationException
    {
-      Texture image = (Texture)Resource.createResource("/resources/images/jason.png");
+      Texture image = (Texture)Resource.createResource(Resource.getResourcePath() + "\\images\\jason.png");
       assertTrue(image.getId().equals("jason.png"));
    }
    
@@ -36,7 +36,7 @@ public class TextureTest
    @Test
    public void testGetBufferedImage() throws ResourceCreationException
    {
-      Texture image = (Texture)Resource.createResource("/resources/images/jason.png");
+      Texture image = (Texture)Resource.createResource(Resource.getResourcePath() + "\\images\\jason.png");
       assertTrue(image.getBufferedImage() != null);
    }
    
@@ -46,7 +46,7 @@ public class TextureTest
    {
       assertFalse(Resource.exists("jason.png"));
       
-      Resource.createResource("/resources/images/jason.png");
+      Resource.createResource(Resource.getResourcePath() + "\\images\\jason.png");
          
       assertTrue(Resource.exists("jason.png"));
    }
@@ -55,7 +55,7 @@ public class TextureTest
    @Test
    public void testGetResource() throws ResourceCreationException
    {
-      Resource.createResource("/resources/images/jason.png");
+      Resource.createResource(Resource.getResourcePath() + "\\images\\jason.png");
       
       Texture image = (Texture)Resource.getResource("jason.png");
          
@@ -72,7 +72,7 @@ public class TextureTest
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          frame.setSize(300, 300);
          
-         final Texture image = (Texture)Resource.createResource("/resources/images/jason.png");
+         final Texture image = (Texture)Resource.createResource(Resource.getResourcePath() + "\\images\\jason.png");
    
          @SuppressWarnings("serial")
          JPanel centerPanel = new JPanel(){

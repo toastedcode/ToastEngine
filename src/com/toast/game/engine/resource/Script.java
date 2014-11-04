@@ -2,10 +2,7 @@ package com.toast.game.engine.resource;
 
 import bsh.EvalError;
 import bsh.Interpreter;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 public class Script extends Resource
 {
@@ -60,9 +57,9 @@ public class Script extends Resource
       
       try
       {
-         URL url = getClass().getResource(filename);
-         //interpreter.eval(new BufferedReader(new InputStreamReader(url.openStream())));
+         // Load the script into the interpreter.
          interpreter.source(filename);
+        
          isLoaded = true;
       }
       catch (IOException | EvalError e)

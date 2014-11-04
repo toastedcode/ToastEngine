@@ -2,11 +2,32 @@ package com.toast.game.engine.resource;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Resource
 {
+   public static String getResourcePath() throws ResourceCreationException
+   {
+      String path = null;
+      
+      URL url = Resource.class.getResource("/resources");
+      if (url != null)
+      {
+         path = url.getFile();
+         path = path.replace("/", File.separator);
+      }
+      else
+      {
+         path = null;
+         throw (new ResourceCreationException());
+      }
+      
+      return (path); 
+   }
+   
+   
    public static void loadResources()
    {
       
@@ -19,8 +40,7 @@ public abstract class Resource
    }
    
    
-   public static void createResources(
-      String path) throws ResourceCreationException
+   public static void createResources(String path) throws ResourceCreationException
    {
       File[] files = new File(path).listFiles();
       
@@ -40,10 +60,8 @@ public abstract class Resource
       }
    }
    
-   
-   
-   public static Resource createResource(
-      String filename) throws ResourceCreationException
+      
+   public static Resource createResource(String filename) throws ResourceCreationException
    {
       Resource resource = null;
 

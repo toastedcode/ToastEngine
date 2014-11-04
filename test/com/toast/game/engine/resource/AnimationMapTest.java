@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.io.IOException;
 
 import org.junit.Test;
 
@@ -26,7 +25,7 @@ public class AnimationMapTest
    public void testLoad() throws ResourceCreationException
    {
       AnimationMap animationMap = new AnimationMap("boxy");
-      animationMap.load("/resources/animations/boxy.anim");
+      animationMap.load(Resource.getResourcePath() + "\\animations\\boxy.anim");
    }
    
    
@@ -38,7 +37,7 @@ public class AnimationMapTest
       AnimationMap.Frame frame = animationMap.getFrame("walk", 0);
       assertTrue(frame == null);
       
-      animationMap.load("/resources/animations/boxy.anim");
+      animationMap.load(Resource.getResourcePath() + "\\animations\\boxy.anim");
       
       frame = animationMap.getFrame("walk", 0);
       assertTrue(frame != null);

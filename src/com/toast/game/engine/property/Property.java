@@ -1,25 +1,16 @@
 package com.toast.game.engine.property;
 
-import com.toast.game.engine.component.Component;
-
-public class Property extends Component
+public class Property
 {
-   public Property()
+   public Property(String id)
    {
-      super();
+      ID = id;
    }
    
-   
-   public Property(
-      String id) 
+   public String getId()
    {
-      super(id);
+      return (ID);
    }
    
-   
-   @Override
-   protected boolean validateChild(Component child)
-   {
-      return (child instanceof Property);
-   }
+   private final String ID;
 }

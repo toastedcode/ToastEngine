@@ -1,8 +1,7 @@
-package com.toast.game.engine.actor;
+package com.toast.game.engine.components;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -11,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.toast.game.engine.component.Sprite;
 import com.toast.game.engine.property.Animation;
 import com.toast.game.engine.property.Animation.AnimationDirection;
 import com.toast.game.engine.property.Animation.AnimationType;
@@ -30,8 +30,8 @@ public class SpriteTest
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          frame.setSize(300, 300);
          
-         Texture image = (Texture)Resource.createResource("/resources/images/boxy.png");
-         AnimationMap animationMap = (AnimationMap)Resource.createResource("/resources/animations/boxy.anim");
+         Texture image = (Texture)Resource.createResource(Resource.getResourcePath() + "\\images\\boxy.png");
+         AnimationMap animationMap = (AnimationMap)Resource.createResource(Resource.getResourcePath() + "\\animations\\boxy.anim");
 
          Animation idle = new Animation("boxy.idle", image, animationMap, "idle", 1);
          
@@ -42,10 +42,10 @@ public class SpriteTest
          transform.setPosition(new Point2D.Double(50, 50));
          transform.setScale(1.5);
          
-         final Sprite boxy = new Sprite("boxy", null);
-         boxy.add(idle);
-         boxy.add(walk);
-         boxy.add(transform);
+         final Sprite boxy = new Sprite("boxy");
+         //boxy.add(idle);
+         //boxy.add(walk);
+         //boxy.add(transform);
          
          @SuppressWarnings("serial")
          final JPanel centerPanel = new JPanel(){
@@ -55,7 +55,7 @@ public class SpriteTest
                 super.paintComponent(g);
                 if (boxy != null)
                 {
-                   boxy.draw(g, new Point(0, 0), 1.0);
+                   boxy.draw(g);
                 }
             }         
          };

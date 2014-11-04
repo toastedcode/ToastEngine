@@ -1,26 +1,26 @@
-package com.toast.game.engine.actor;
+package com.toast.game.engine.component;
 
-import com.toast.game.common.ClassSet;
-import com.toast.game.engine.component.Component;
 import com.toast.game.engine.interfaces.Updatable;
-import com.toast.game.engine.property.Property;
+import com.toast.xml.XmlNode;
 
 public class Actor extends Component implements Updatable
 {
-   public Actor(
-      String id,
-      ClassSet classSet)
+   public Actor(String id)
    {
       super(id);
-      CLASS_SET = classSet;
    }
+   
+   
+   public Actor(XmlNode node)
+   {
+      super(node);
+   }   
    
    
    @Override
    protected boolean validateChild(Component child)
    {
-      return ((child instanceof Component) ||
-              (child instanceof Property));
+      return ((child instanceof Component));
    }
 
 
@@ -36,11 +36,4 @@ public class Actor extends Component implements Updatable
          }
       }
    }
-   
-   public ClassSet getClassSet()
-   {
-      return ((ClassSet)CLASS_SET.clone());
-   }
-   
-   private final ClassSet CLASS_SET;
 }

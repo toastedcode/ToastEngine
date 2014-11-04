@@ -1,16 +1,25 @@
-package com.toast.game.engine.actor;
+package com.toast.game.engine.component;
 
-import com.toast.game.common.ClassSet;
+import com.toast.xml.XmlNode;
 
 public class Timer extends Actor
 {
+   public Timer(XmlNode node)
+   {
+      super(node);
+      
+      duration = node.getChild("duration").getDoubleValue();
+      isRepeating = node.getChild("isRepeating").getBoolValue();
+      endTime = System.currentTimeMillis() + duration;
+   }
+   
+   
    public Timer(
       String id,
-      ClassSet classSet,
       double duration,
       boolean isRepeating)
    {
-      super(id, classSet);
+      super(id);
       
       this.duration = duration;
       this.isRepeating = isRepeating;

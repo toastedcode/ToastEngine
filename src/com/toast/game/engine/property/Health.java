@@ -4,7 +4,7 @@ public class Health extends Property
 {
    public Health()
    {
-      super();
+      super("health");
    }
 
 

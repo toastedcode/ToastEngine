@@ -6,10 +6,12 @@ import static org.junit.Assert.assertTrue;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +31,7 @@ public class SfxTest
       
       assertFalse(sfx.isLoaded() == true);
       
-      sfx.load("/resources/sfx/bakedPotato.wav");
+      sfx.load(Resource.getResourcePath() + "\\sfx\\bakedPotato.wav");
       
       assertTrue(sfx.isLoaded() == true);
    }
@@ -38,7 +40,7 @@ public class SfxTest
    @Test
    public void testGetId() throws ResourceCreationException
    {
-      Sfx sfx = (Sfx)Resource.createResource("/resources/sfx/bakedPotato.wav");
+      Sfx sfx = (Sfx)Resource.createResource(Resource.getResourcePath() + "\\sfx\\bakedPotato.wav");
       assertTrue(sfx.getId().equals("bakedPotato.wav"));
    }
    
@@ -46,7 +48,7 @@ public class SfxTest
    @Test
    public void testGetClip() throws ResourceCreationException, LineUnavailableException
    {
-      Sfx sfx = (Sfx)Resource.createResource("/resources/sfx/bakedPotato.wav");
+      Sfx sfx = (Sfx)Resource.createResource(Resource.getResourcePath() + "\\sfx\\bakedPotato.wav");
       assertTrue(sfx.getClip() != null);
    }
    
@@ -56,7 +58,7 @@ public class SfxTest
    {
       assertFalse(Resource.exists("bakedPotato.wav"));
       
-      Resource.createResource("/resources/sfx/bakedPotato.wav");
+      Resource.createResource(Resource.getResourcePath() + "\\sfx\\bakedPotato.wav");
          
       assertTrue(Resource.exists("bakedPotato.wav"));
    }
@@ -65,7 +67,7 @@ public class SfxTest
    @Test
    public void testGetResource() throws ResourceCreationException
    {
-      Resource.createResource("/resources/sfx/bakedPotato.wav");
+      Resource.createResource(Resource.getResourcePath() + "\\sfx\\bakedPotato.wav");
       
       Sfx sfx = (Sfx)Resource.getResource("bakedPotato.wav");
          
@@ -83,7 +85,7 @@ public class SfxTest
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          frame.setSize(300, 300);
          
-         Sfx sfx = (Sfx)Resource.createResource("/resources/sfx/carl.wav");
+         Sfx sfx = (Sfx)Resource.createResource(Resource.getResourcePath() + "\\sfx\\carl.wav");
          final Clip clip = sfx.getClip();
    
          JButton button = new JButton("Play");
