@@ -1,10 +1,17 @@
 package com.toast.game.engine.component;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
 
+import com.sun.javafx.collections.MappingChange.Map;
 import com.toast.game.common.ClassSet;
+import com.toast.game.engine.Renderer;
+import com.toast.game.engine.interfaces.Drawable;
 import com.toast.game.engine.property.Property;
 import com.toast.game.engine.property.Transform;
 import com.toast.xml.XmlNode;
@@ -129,6 +136,17 @@ public class Component
    }
 
    
+   public boolean add(
+      Property property)
+   {
+      boolean returnStatus = true;
+      
+      properties.put(property.getId(), property);
+
+      return (returnStatus);
+   }
+   
+   
    protected boolean validateChild(
       Component child)
    {
@@ -192,20 +210,38 @@ public class Component
    }
    
    
-   private Transform getTransform()
+   public void draw()
    {
-      Transform transform = null;
-      
-      for (Property property : properties)
+      // Get the transformation matrix.
+      AffineTransform affineTransform = new AffineTransform();
+      int layerIndex = 0;
+      Transform transform = getTransform();
+      if (transform != null)
       {
-         if (property instanceof Transform)
+         affineTransform = transform.getTransform();
+         layerIndex = transform.getZOrder();
+      }
+      
+      // Draw this Component's drawable properties.
+      for (Property property : properties.values())
+      {
+         if (property instanceof Drawable)
          {
-            transform = (Transform)property;
-            break;
+            Renderer.draw((Drawable)property, affineTransform, layerIndex);
          }
       }
       
-      return (transform);
+      // Draw all of the Component's children.
+      for (Component child : children)
+      {
+         child.draw();
+      }      
+   }
+   
+   
+   private Transform getTransform()
+   {
+      return ((Transform)properties.get("transform"));
    }
 
    protected final String ID;
@@ -214,9 +250,9 @@ public class Component
 
    protected Component parent;
 
-   protected List<Component> children;
+   protected ArrayList<Component> children = new ArrayList<>();
    
-   protected List<Property> properties;
+   protected HashMap<String, Property> properties = new HashMap<>();
 
    protected boolean isEnabled;
 }

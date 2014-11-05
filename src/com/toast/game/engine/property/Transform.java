@@ -1,5 +1,6 @@
 package com.toast.game.engine.property;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import com.toast.game.common.CoordinatesType;
@@ -81,6 +82,16 @@ public class Transform extends Property
    public void setScale(double scale)
    {
       this.scale = scale;
+   }
+   
+   
+   public AffineTransform getTransform()
+   {
+      AffineTransform affineTransform = new AffineTransform();
+      affineTransform.translate(position.getX(), position.getY());
+      affineTransform.scale(scale, scale);
+      
+      return (affineTransform);
    }
    
    private Point2D.Double position;
