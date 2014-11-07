@@ -45,8 +45,8 @@ public class AnimationTest
                 if ((idle != null) &&
                     (walk != null))
                 {
-                   idle.draw(g, new Point(100, 50), 1.0);
-                   walk.draw(g, new Point(100, 150), 1.0);
+                   idle.draw(g);
+                   walk.draw(g);
                 }
             }         
          };

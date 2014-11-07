@@ -2,6 +2,7 @@ package com.toast.game.engine.resource;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+
 import java.io.IOException;
 
 public class Script extends Resource
@@ -10,7 +11,7 @@ public class Script extends Resource
    //                             Enumerations
    // **************************************************************************
    
-   public enum ScriptFunction
+   public enum Function
    {
       INIT("initialize"),
       UPDATE("update"),
@@ -18,7 +19,7 @@ public class Script extends Resource
       DESTROY("destroy"),
       DRAW("draw");
       
-      private ScriptFunction(String callString)
+      private Function(String callString)
       {
          CALL_STRING = callString;
       }
@@ -29,6 +30,32 @@ public class Script extends Resource
       }
       
       private final String CALL_STRING;
+   }
+   
+   
+   public static class Variable
+   {
+      public Variable(
+         String name,
+         Object value)
+      {
+         NAME = name;
+         VALUE = value;
+      }
+      
+      public String getName()
+      {
+         return (NAME);
+      }
+      
+      public Object getValue()
+      {
+         return (VALUE);
+      }
+      
+      private final String NAME;
+      
+      private final Object VALUE;
    }
    
    // **************************************************************************

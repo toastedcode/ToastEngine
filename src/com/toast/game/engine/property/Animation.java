@@ -6,10 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import com.toast.game.engine.interfaces.Drawable;
+import com.toast.game.engine.interfaces.Updatable;
 import com.toast.game.engine.resource.AnimationMap;
 import com.toast.game.engine.resource.Texture;
 
-public class Animation extends Property
+public class Animation extends Property implements Updatable, Drawable
 {
    // **************************************************************************
    //                          Public Attributes
@@ -146,11 +148,11 @@ public class Animation extends Property
    }      
    
    
-   public void draw(
-      Graphics graphics,
-      Point position,
-      double scale)
+   public void draw(Graphics graphics)
    {
+      Point position = new Point(0, 0);
+      double scale = 1.0;
+      
       // Retrieve the current frame.
       AnimationMap.Frame frame = ANIMATION_MAP.getFrame(ANIMATION_ID,  currentFrame);
       
@@ -328,5 +330,12 @@ public class Animation extends Property
    private AnimationDirection animationDirection;
    
    // An enumeration determining how the Animation should animate.
-   private AnimationType animationType;   
+   private AnimationType animationType;
+
+   @Override
+   public boolean isVisible()
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }   
 }

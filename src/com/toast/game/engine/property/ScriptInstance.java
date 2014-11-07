@@ -20,12 +20,23 @@ public class ScriptInstance extends Property implements Drawable, Updatable
    
    
    public void evaluate(
-      Script.ScriptFunction function)
+      Script.Function function,
+      Script.Variable ... variables)
    {
       try
       {
          Interpreter interpreter = SCRIPT.getInterpreter();
+         
+         // Get the call string.
          String callString = function.getCallString() + "()";
+         
+         // Set parameters.
+         for (Script.Variable variable : variables)
+         {
+            interpreter.set(variable.getName(),  variable.getValue());
+         }
+         
+         // Evaluate.
          interpreter.eval(callString);
       }
       catch (EvalError e)
@@ -37,7 +48,7 @@ public class ScriptInstance extends Property implements Drawable, Updatable
    @Override
    public void draw(Graphics graphics)
    {
-      evaluate(Script.ScriptFunction.DRAW);
+      evaluate(Script.Function.DRAW, new Script.Variable("graphics", graphics));
    }
 
    
@@ -68,7 +79,7 @@ public class ScriptInstance extends Property implements Drawable, Updatable
    @Override
    public void update(long elapsedTime)
    {
-      evaluate(Script.ScriptFunction.DRAW);
+      evaluate(Script.Function.UPDATE, new Script.Variable("elapsedTime",  elapsedTime));
    }
    
    Script SCRIPT;

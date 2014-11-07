@@ -32,8 +32,12 @@ public void destroy()
 
 public void draw()
 {
-	print("draw");
+   if (graphics != null)
+   {
+      graphics.drawOval(0, 0, 50, 50);
+   }
 }
+
 
 public void update()
 {

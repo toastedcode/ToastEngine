@@ -5,13 +5,11 @@ import java.awt.geom.Point2D;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Callable;
 
-import com.sun.javafx.collections.MappingChange.Map;
 import com.toast.game.common.ClassSet;
 import com.toast.game.engine.Renderer;
 import com.toast.game.engine.interfaces.Drawable;
+import com.toast.game.engine.interfaces.Updatable;
 import com.toast.game.engine.property.Property;
 import com.toast.game.engine.property.Transform;
 import com.toast.xml.XmlNode;
@@ -165,48 +163,24 @@ public class Component
    {
       this.isEnabled = isEnabled;
    }
+
    
-   
-   public Point2D.Double getPosition()
+   public void update(long elapsedTime)
    {
-      Point2D.Double position = new Point2D.Double(0, 0);
-      
-      // Start with the parent's position.
-      if (parent != null)
+      // Update this Component's updatable properties.
+      for (Property property : properties.values())
       {
-         position = parent.getPosition();
+         if (property instanceof Updatable)
+         {
+            ((Updatable)property).update(elapsedTime);
+         }
       }
       
-      // Transform.
-      Transform transform = getTransform();
-      if (transform != null)
+      // Update all of the Component's children.
+      for (Component child : children)
       {
-         position.setLocation((position.getX() + transform.getPosition().getX()),
-                              (position.getY() + transform.getPosition().getY()));
-      }
-      
-      return (position);
-   }
-   
-   
-   public double getScale()
-   {
-      double scale = 1.0;
-      
-      // Start with the parent's scale.
-      if (parent != null)
-      {
-         scale *= parent.getScale();
-      }
-      
-      // Transform.
-      Transform transform = getTransform();
-      if (transform != null)
-      {
-         scale *= transform.getScale();
-      }
-      
-      return (scale);
+         child.update(elapsedTime);
+      }        
    }
    
    
@@ -235,6 +209,35 @@ public class Component
       for (Component child : children)
       {
          child.draw();
+      }      
+   }
+   
+   
+   public void move(
+      double deltaX,
+      double deltaY)
+   {
+      Transform transform = getTransform();
+      if (transform != null)
+      {
+         Point2D.Double position = transform.getPosition();
+         getTransform().setPosition(position.getX() + deltaX, position.getY() + deltaY);
+      }
+   }
+   
+   
+   public void moveTo(
+      double x,
+      double y)
+   {
+      Transform transform = getTransform();
+      if (transform != null)
+      {
+         Point2D.Double position = transform.getPosition();
+         double deltaX = x - position.getX();
+         double deltaY = y - position.getY();
+         
+         move(deltaX, deltaY);
       }      
    }
    
