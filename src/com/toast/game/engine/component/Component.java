@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.toast.game.common.ClassSet;
+import com.toast.game.engine.Event;
 import com.toast.game.engine.Renderer;
 import com.toast.game.engine.interfaces.Drawable;
 import com.toast.game.engine.interfaces.Updatable;
+import com.toast.game.engine.property.EventHandler;
 import com.toast.game.engine.property.Property;
 import com.toast.game.engine.property.Transform;
 import com.toast.xml.XmlNode;
@@ -209,6 +211,19 @@ public class Component
       for (Component child : children)
       {
          child.draw();
+      }      
+   }
+   
+   
+   public void queueEvent(Event event)
+   {
+      // Queue this event for all of this Component's EventHandler properties.
+      for (Property property : properties.values())
+      {
+         if (property instanceof EventHandler)
+         {
+            ((EventHandler)property).queueEvent(event);
+         }
       }      
    }
    
