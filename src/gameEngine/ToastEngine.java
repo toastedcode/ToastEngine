@@ -65,19 +65,19 @@ public class ToastEngine
       {
          // Update the current level.
          LevelManager.getInstance().updateLevel(elapsedTime);
-         
+
          // Update the quadtree calculated in the CollisionManager.
          CollisionManager.update(elapsedTime);
-      
+         
          // Update all timers
          TimerManager.updateTimers(elapsedTime);
-         
+            
          // Update all triggers
          TriggerManager.updateTriggers(elapsedTime);
-   
+      
          // Update all sprites (animation, physics, logic)
          SpriteManager.updateSprites(elapsedTime);
-         
+            
          // Update the views.
          ViewManager.updateViews(elapsedTime);
       }

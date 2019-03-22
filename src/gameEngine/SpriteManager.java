@@ -291,11 +291,21 @@ public class SpriteManager
    
    public static void freeSprites()
    {
+      spriteMap.lock();
+      drawList.lock();
+      templateList.lock();
+      selectionList.lock();
+      
       spriteMap.clear();
       drawList.clear();
       templateList.clear();
       templateMap.clear();
       selectionList.clear();
+      
+      spriteMap.unlock();
+      drawList.unlock();
+      templateList.unlock();
+      selectionList.unlock();
    }
    
    

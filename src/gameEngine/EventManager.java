@@ -142,6 +142,7 @@ public class EventManager
    public static void freeEventRegister()
    {
       spriteRegister.clear();
+      handlerRegister.clear();
    }
    
    

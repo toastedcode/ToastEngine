@@ -39,7 +39,7 @@ public class GameTest
          transform.setScale(0.5);
          
          Physics physics = new Physics();
-         physics.setVelocity(5, 0);
+         //physics..setVelocity(5, 0);
                   
          component = new Component("jason");
          component.add(image);

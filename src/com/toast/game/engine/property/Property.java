@@ -1,6 +1,7 @@
 package com.toast.game.engine.property;
 
 import com.toast.xml.XmlNode;
+import com.toast.xml.exception.XmlFormatException;
 
 public class Property
 {
@@ -10,9 +11,9 @@ public class Property
    }
 
    
-   public Property(XmlNode node)
+   public Property(XmlNode node) throws XmlFormatException
    {
-      ID = node.getAttribute("id");
+      ID = node.getAttribute("id").getValue();
    }    
 
    

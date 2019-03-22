@@ -74,7 +74,7 @@ public abstract class Resource
          
          resource = (Resource)Class.forName(resourceType.RESOURCE_CLASS).getConstructor(String.class).newInstance(id);
          resource.load(filename);
-         
+                  
          resourceMap.put(id, resource);
       }
       catch (NullPointerException | InvocationTargetException | IllegalAccessException | InstantiationException | 

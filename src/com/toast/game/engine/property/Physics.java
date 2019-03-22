@@ -3,6 +3,7 @@ package com.toast.game.engine.property;
 import com.toast.game.common.Vector2D;
 import com.toast.game.engine.interfaces.Updatable;
 import com.toast.xml.XmlNode;
+import com.toast.xml.exception.XmlFormatException;
 
 public class Physics extends Property implements Updatable
 {
@@ -12,7 +13,7 @@ public class Physics extends Property implements Updatable
    }
    
    
-   public Physics(XmlNode node)
+   public Physics(XmlNode node) throws XmlFormatException
    {
       super(node);
    }

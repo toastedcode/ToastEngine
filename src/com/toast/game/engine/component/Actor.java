@@ -2,6 +2,7 @@ package com.toast.game.engine.component;
 
 import com.toast.game.engine.interfaces.Updatable;
 import com.toast.xml.XmlNode;
+import com.toast.xml.exception.XmlFormatException;
 
 public class Actor extends Component implements Updatable
 {
@@ -11,7 +12,7 @@ public class Actor extends Component implements Updatable
    }
    
    
-   public Actor(XmlNode node)
+   public Actor(XmlNode node) throws XmlFormatException
    {
       super(node);
    }   

@@ -35,16 +35,19 @@ public class LockableMap<K, E> extends HashMap<K, E>
       {
          lockDepth--;
          
-         // React to a call to clear() that occurred while we were locked.
-         if (shouldClear == true)
+         if (lockDepth == 0)
          {
-            super.clear();
-            shouldClear = false;
-         }         
-
-         // Process any additions or subtractions that occurred while we were locked.
-         flushAdditionList();
-         flushSubtractionList();
+            // React to a call to clear() that occurred while we were locked.
+            if (shouldClear == true)
+            {
+               super.clear();
+               shouldClear = false;
+            }         
+   
+            // Process any additions or subtractions that occurred while we were locked.
+            flushAdditionList();
+            flushSubtractionList();
+         }
       }
    }
   

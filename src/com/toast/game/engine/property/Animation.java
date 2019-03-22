@@ -138,6 +138,10 @@ public class Animation extends Property implements Updatable, Drawable
    
    public int getWidth()
    {
+      if (TEXTURE == null)
+      {
+         int i = 0;
+      }
       return (TEXTURE.getBufferedImage().getWidth());
    }
    

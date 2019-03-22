@@ -1,10 +1,11 @@
 package com.toast.game.engine.component;
 
 import com.toast.xml.XmlNode;
+import com.toast.xml.exception.XmlFormatException;
 
 public class Timer extends Actor
 {
-   public Timer(XmlNode node)
+   public Timer(XmlNode node) throws XmlFormatException
    {
       super(node);
       

@@ -194,20 +194,28 @@ public class LevelManager
    private boolean loadLevel(
       String filename)
    {
-      logger.log(Level.INFO, 
-                 String.format("Loading new level file [%s].", filename));               
       
       if (currentLevel != null)
       {
+         logger.log(Level.INFO, 
+                    String.format("Destroying level file [%s].", currentLevel.getLevelId()));               
+         
          currentLevel.destroy();
       }
       
-      currentLevel = new gameEngine.Level(filename);
-      SpriteManager.initializeSprites();
-      
-      Event event = new Event("eventLEVEL_LOADED");
-      event.addPayload("levelId", currentLevel.getLevelId());
-      EventManager.broadcastEvent(event);
+      // TODO: How about this?  Verify that all Sprites have been destroyed before loading?
+      if (SpriteManager.getSprites().size() == 0)
+      {
+         logger.log(Level.INFO, 
+                    String.format("Loading new level file [%s].", filename));               
+         
+         currentLevel = new gameEngine.Level(filename);
+         SpriteManager.initializeSprites();
+         
+         Event event = new Event("eventLEVEL_LOADED");
+         event.addPayload("levelId", currentLevel.getLevelId());
+         EventManager.broadcastEvent(event);
+      }
 
       return (currentLevel != null);
    }

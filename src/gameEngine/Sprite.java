@@ -95,6 +95,15 @@ public class Sprite implements Cloneable
       XmlNode spriteNode = node.appendChild("sprite");
       
       //
+      // objectClass
+      //
+      
+      if (this.getClass() != Sprite.class)
+      {
+         spriteNode.setAttribute("objectClass", this.getClass().toString().substring(6));
+      }
+      
+      //
       // Identification
       //
       
@@ -247,7 +256,7 @@ public class Sprite implements Cloneable
       // script
       if (script != null)
       {
-         spriteNode.appendChild("scriptId", script.scriptId);  
+         spriteNode.appendChild("script", script.scriptId);  
       }
 
       // eventQueue

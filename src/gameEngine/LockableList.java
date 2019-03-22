@@ -31,17 +31,20 @@ public class LockableList<E> extends ArrayList<E>
       if (isLocked() == true)
       {
          lockDepth--;
-
-         // React to a call to clear() that occurred while we were locked.
-         if (shouldClear == true)
-         {
-            super.clear();
-            shouldClear = false;
-         }
          
-         // Process any additions or subtractions that occurred while we were locked.
-         flushAdditionList();
-         flushSubtractionList();
+         if (lockDepth == 0)
+         {
+            // React to a call to clear() that occurred while we were locked.
+            if (shouldClear == true)
+            {
+               super.clear();
+               shouldClear = false;
+            }
+            
+            // Process any additions or subtractions that occurred while we were locked.
+            flushAdditionList();
+            flushSubtractionList();
+         }
       }
    }
    

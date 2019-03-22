@@ -15,6 +15,7 @@ import com.toast.game.engine.property.EventHandler;
 import com.toast.game.engine.property.Property;
 import com.toast.game.engine.property.Transform;
 import com.toast.xml.XmlNode;
+import com.toast.xml.exception.XmlFormatException;
 
 public class Component
 {
@@ -28,13 +29,13 @@ public class Component
          String classString = "com.toast.game.engine.component.Component";
          if (node.hasAttribute("code") == true)
          {
-            classString = node.getAttribute("code");
+            classString = node.getAttribute("code").getValue();
          }
          
          component = (Component)Class.forName(classString).getConstructor(XmlNode.class).newInstance(node);
       }
       catch (NullPointerException | InvocationTargetException | IllegalAccessException | InstantiationException | 
-             NoSuchMethodException | ClassNotFoundException e)
+             NoSuchMethodException | ClassNotFoundException | XmlFormatException e)
       {
          throw (new ComponentCreationException());
       }
@@ -44,12 +45,12 @@ public class Component
    
    
    public Component(
-      XmlNode node)
+      XmlNode node) throws XmlFormatException
    {
-      ID = node.getAttribute("id");
+      ID = node.getAttribute("id").getValue();
       if (node.hasAttribute("class") == true)
       {
-         classSet = new ClassSet(node.getAttribute("class"));
+         classSet = new ClassSet(node.getAttribute("class").getValue());
       }
       parent = null;
    }

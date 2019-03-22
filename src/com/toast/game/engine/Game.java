@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import gameEngine.TimingManager;
 import com.toast.game.engine.component.Component;
 import com.toast.xml.XmlNode;
+import com.toast.xml.exception.XmlFormatException;
 
 public class Game extends Component
 {
@@ -19,7 +20,7 @@ public class Game extends Component
    }
    
    
-   public Game(XmlNode node)
+   public Game(XmlNode node) throws XmlFormatException
    {
       super(node);
       
